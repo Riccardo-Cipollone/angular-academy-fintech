@@ -1,0 +1,50 @@
+<form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+    <!-- ? Email Field -->
+    <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input type="email" name="email" [ngModel] #emailRef="ngModel" matInput placeholder="Inserisci email..."
+            required>
+        <mat-error *ngIf="!emailRef.valid">Email richiesta</mat-error>
+    </mat-form-field>
+
+    <!-- ? Name Field -->
+    <mat-form-field appearance="fill">
+        <mat-label>Nome</mat-label>
+        <input type="text" name="name" [ngModel] #nameRef="ngModel" matInput placeholder="Inserisci nome..." required>
+        <mat-error *ngIf="!nameRef.valid">Nome richiesto</mat-error>
+    </mat-form-field>
+
+    <!-- ? Surname Field -->
+    <mat-form-field appearance="fill">
+        <mat-label>Cognome</mat-label>
+        <input type="text" name="surname" [ngModel] #surnameRef="ngModel" matInput placeholder="Inserisci cognome..."
+            required>
+        <mat-error *ngIf="!surnameRef.valid">Cognome richiesto</mat-error>
+    </mat-form-field>
+
+    <!-- ? Password Field -->
+    <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input [type]="isPasswordHidden ? 'password' : 'text'" name="password" [ngModel] #passwordRef="ngModel" matInput
+            placeholder="Inserisci password..." required>
+        <mat-icon matSuffix color="primary" style="cursor: pointer" (click)="toggleVisibility('password', $event)">
+            {{ isPasswordHidden ? 'visibility_off' : 'visibility' }}
+        </mat-icon>
+        <mat-error *ngIf="!passwordRef.valid">Password richiesta</mat-error>
+    </mat-form-field>
+
+    <!-- ? Repeat Password Field -->
+    <mat-form-field appearance="fill">
+        <mat-label>Ripeti la password</mat-label>
+        <input [type]="isRepeatPasswordHidden ? 'password' : 'text'" name="repeatPassword" [ngModel]
+            #repeatPasswordRef="ngModel" matInput required>
+        <mat-icon matSuffix color="primary" style="cursor: pointer" (click)="toggleVisibility('repeat', $event)">
+            {{ isRepeatPasswordHidden ? 'visibility_off' : 'visibility' }}
+        </mat-icon>
+        <mat-error *ngIf="!repeatPasswordRef.valid">Password richiesta</mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit">Registrati</button>
+    </div>
+</form>
