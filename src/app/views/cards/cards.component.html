@@ -1,0 +1,19 @@
+<mat-drawer-container class="drawer-container">
+
+    <mat-drawer #drawer class="sidenav" mode="side" position="end">
+        <app-card-form 
+        (addCard)="addCardHandler($event)"
+        (cancel)="cancelHandler()"
+    >
+    </app-card-form>
+    </mat-drawer>
+
+    <app-card-list 
+        [cards]="cards" 
+        (addCard)="drawer.toggle()"
+        (removeCard)="removeCardHandler($event)"
+        (viewMovements)="viewMovementsHandler($event)"
+    >
+    </app-card-list>
+
+</mat-drawer-container>

@@ -1,0 +1,74 @@
+<mat-card>
+    <mat-card-title>
+        <h2>Aggiungi carta</h2>
+    </mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="cardForm" (ngSubmit)="addCard.emit(cardForm.value)" class="form-layout">
+            <!-- ? Card Type Field -->
+            <mat-form-field appearance="fill">
+                <mat-label>Tipo di carta</mat-label>
+                <mat-select formControlName="type">
+                    <mat-option *ngFor="let type of cardTypes" [value]="type">
+                        {{ type | titlecase }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="cardForm.get('type')?.hasError('required')">Seleziona un'opzione.</mat-error>
+            </mat-form-field>
+
+            <div style="display: flex; gap: 16px">
+                <!-- ? Name Field -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Nome</mat-label>
+                    <input matInput type="text" formControlName="name">
+                    <mat-error *ngIf="cardForm.get('name')?.hasError('required')">
+                        Nome richiesto.
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- ? Surname Field -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Cognome</mat-label>
+                    <input matInput type="text" formControlName="surname">
+                    <mat-error *ngIf="cardForm.get('surname')?.hasError('required')">
+                        Cognome richiesto.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <!-- ? Card number Field -->
+            <mat-form-field appearance="fill">
+                <mat-label>N° Carta</mat-label>
+                <input matInput type="number" formControlName="cardNumber">
+                <mat-hint>Il valore deve essere lungo 16 caratteri</mat-hint>
+                <mat-error *ngIf="cardForm.get('cardNumber')?.hasError('required')">
+                    Numero della carta di credito richiesto.
+                </mat-error>
+                <mat-error *ngIf="cardForm.get('cardNumber')?.getError('requiredLength') as e">
+                    La lunghezza del valore inserito non corrisponde al valore richiesto di {{ e.length }} caratteri.
+                </mat-error>
+            </mat-form-field>
+
+            <!-- ? Security code Field -->
+            <mat-form-field appearance="fill">
+                <mat-label>Codice di sicurezza</mat-label>
+                <input matInput type="number" formControlName="security">
+                <mat-hint>Il valore deve essere lungo 3 caratteri</mat-hint>
+                <mat-error *ngIf="cardForm.get('security')?.hasError('required')">
+                    Codice di sicurezza richiesto.
+                </mat-error>
+                <mat-error *ngIf="cardForm.get('security')?.getError('requiredLength') as e">
+                    La lunghezza del valore inserito non corrisponde al valore richiesto di {{ e.length }} caratteri.
+                </mat-error>
+            </mat-form-field>
+
+            <div class="form-actions">
+                <button mat-raised-button color="primary" type="submit" [disabled]="!cardForm.valid">
+                    Aggiungi carta
+                </button>
+                <button mat-raised-button type="button" (click)="cancel.emit()">
+                    Annulla
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

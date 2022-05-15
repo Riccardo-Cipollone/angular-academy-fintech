@@ -1,0 +1,23 @@
+<mat-card>
+    <mat-card-title>
+        <h4 class="title">Carte</h4>
+    </mat-card-title>
+    <mat-card-content>
+        <mat-list role="list">
+            <div *ngFor="let card of cards; let i = index" class="card-row">
+                <div class="card-info">
+                    <mat-icon>credit_card</mat-icon>
+                    <div>
+                        <span>{{ card.number }}</span>
+                        <span>€{{ card.amount }} - {{ card.type | titlecase }}</span>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <mat-icon matTooltip="Vedi movimenti" (click)="viewMovements.emit(card._id)">receipt_long</mat-icon>
+                    <mat-icon matTooltip="Rimuovi" (click)="removeCard.emit(card._id)">delete</mat-icon>
+                </div>
+            </div>
+        </mat-list>
+        <button mat-raised-button class="add-card-button" (click)="addCard.emit()">Aggiungi</button>
+    </mat-card-content>
+</mat-card>

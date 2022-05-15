@@ -1,0 +1,23 @@
+mat-card {
+    max-width: 500px;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.form-layout {
+    display: flex; 
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    button {
+        width: 100%;
+    }
+}
