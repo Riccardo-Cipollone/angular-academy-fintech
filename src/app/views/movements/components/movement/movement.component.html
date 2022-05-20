@@ -1,0 +1,13 @@
+<mat-expansion-panel>
+    <!-- ? Header -->
+    <mat-expansion-panel-header>
+        <mat-panel-title class="movement-title">
+            <span class="date">[{{ timestamp | date:'dd/MM/yyyy' }}]</span>
+            <span class="amount" [ngStyle]="{ color: type === 'in' ? '#28A745' : '#DC3545' }">€ {{ amount }}</span>
+            <span class="title">{{ title }}</span>
+        </mat-panel-title>
+        <mat-panel-description class="movement-description">{{ description | truncate:20 }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <!-- ? Content -->
+    <p>{{ description }}</p>
+</mat-expansion-panel>

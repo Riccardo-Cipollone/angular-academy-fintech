@@ -1,3 +1,5 @@
+import { Movement } from "./movement.model";
+
 export interface Card {
     _id: string;
     number: string;
@@ -5,6 +7,7 @@ export interface Card {
     owner: string;
     type: 'visa' | 'mastercard';
     amount: number;
+    movements?: Movement[];
 }
 
 export interface CardForm {

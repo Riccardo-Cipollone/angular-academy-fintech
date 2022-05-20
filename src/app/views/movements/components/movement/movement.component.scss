@@ -1,0 +1,26 @@
+.movement-title {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 40%;
+
+    .date {
+        font-size: 12px;
+        font-style: italic;
+        color: #0000008a;
+    }
+
+    .amount {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+}
+
+.movement-description {
+    max-width: 50%;
+}

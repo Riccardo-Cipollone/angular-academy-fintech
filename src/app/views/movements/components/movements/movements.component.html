@@ -1,0 +1,32 @@
+<mat-card>
+    <mat-card-title>Lista dei movimenti</mat-card-title>
+    <mat-card-content>
+        <mat-form-field appearance="fill">
+            <mat-label>Seleziona una carta:</mat-label>
+            <!-- TODO: Reagire alla selezione con valueChanges e Reactive Forms -->
+            <mat-select (selectionChange)="selectCard($event)">
+                <mat-option [value]="null">None</mat-option>
+                <mat-option *ngFor="let card of cards" [value]="card._id">
+                    {{ card.number }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div *ngIf="selectedCard">
+            <h1 style="font-weight: bold">Saldo: €{{ selectedCard.amount }}</h1>
+            <!-- ? Faccio vedere solo i primi 5 elementi, aumento con loadMoreMovements -->
+            <ng-container *ngFor="let movement of movements | slice:0:max">
+                <app-movement 
+                    [title]="movement.title"
+                    [description]="movement.description"
+                    [timestamp]="movement.timestamp" 
+                    [type]="movement.type"
+                    [amount]="movement.amount"
+                >
+                </app-movement>
+            </ng-container>
+            <button mat-raised-button color="primary" class="load-more-button" (click)="loadMoreMovements()">
+                Carica altro
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>
