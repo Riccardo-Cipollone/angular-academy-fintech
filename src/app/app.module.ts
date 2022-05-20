@@ -15,6 +15,10 @@ import { CardFormComponent } from './views/cards/components/card-form/card-form.
 import { MovementComponent } from './views/movements/components/movement/movement.component';
 import { MovementsComponent } from './views/movements/components/movements/movements.component';
 import { SharedModule } from './shared/shared.module';
+import { TransferComponent } from './views/transfer/transfer.component';
+import { ContactsComponent } from './views/transfer/components/contacts/contacts.component';
+import { ContactListComponent } from './views/transfer/components/contact-list/contact-list.component';
+import { ContactFormComponent } from './views/transfer/components/contact-form/contact-form.component';
 
 
 @NgModule({
@@ -28,6 +32,10 @@ import { SharedModule } from './shared/shared.module';
     CardsComponent,
     MovementComponent,
     MovementsComponent,
+    TransferComponent,
+    ContactsComponent,
+    ContactListComponent,
+    ContactFormComponent,
   ],
   imports: [
     BrowserModule,
