@@ -1,1 +1,23 @@
-<p>contact-form works!</p>
+<form #f="ngForm" (ngSubmit)="saveContactEvent(f.value)" class="form-layout">
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Nome</mat-label>
+        <input matInput type="text" name="name" [ngModel]="initialContact?.name" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Cognome</mat-label>
+        <input matInput type="text" name="surname" [ngModel]="initialContact?.surname" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>IBAN</mat-label>
+        <input matInput type="text" name="iban" [ngModel]="initialContact?.iban" required minlength="16" maxlength="16">
+        <mat-hint>Es: 1111 2222 3333 4444</mat-hint>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" class="full-width" 
+        [disabled]="!f.valid" cdkFocusInitial
+    >
+        Salva
+    </button>
+</form>

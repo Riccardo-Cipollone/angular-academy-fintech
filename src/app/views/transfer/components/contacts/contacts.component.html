@@ -1,1 +1,17 @@
-<p>contacts works!</p>
+<div mat-dialog-content>
+    <ng-container *ngIf="contactStatus === 'list'">
+        <app-search [contacts]="contactList" (filteredContacts)="handleFilteredContacts($event)"></app-search>
+        <app-contact-list 
+            [contactList]="filteredContactList" 
+            (selectContact)="selectHandler($event)"
+            (editContact)="editHandler($event)"
+            (deleteContact)="deleteHandler($event)"
+        >
+        </app-contact-list>
+        <button mat-raised-button color="primary" style="width: 100%" (click)="newContact()">Nuovo contatto</button>
+    </ng-container>
+    <ng-container *ngIf="contactStatus === 'form'">
+        <button mat-stroked-button style="margin-bottom: 20px; width: 100%" (click)="goBackToList()">Indietro</button>
+        <app-contact-form [initialContact]="selectedContact" (saveContact)="saveHandler($event)"></app-contact-form>
+    </ng-container>
+</div>

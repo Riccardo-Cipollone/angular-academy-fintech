@@ -1,1 +1,47 @@
-<p>transfer works!</p>
+<mat-card class="form-container">
+    <mat-card-title style="text-align: center">Trasferimenti</mat-card-title>
+    <mat-card-content>
+        <button mat-stroked-button class="full-width" (click)="openContactList()">Lista contatti</button>
+        <form #transferForm="ngForm" (ngSubmit)="transferMoney(transferForm)" style="margin: 16px 0">
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Nome</mat-label>
+                <input matInput type="text" name="name" [ngModel]="selectedContact?.name" required>
+            </mat-form-field>
+            
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Cognome</mat-label>
+                <input matInput type="text" name="surname" [ngModel]="selectedContact?.surname" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>IBAN</mat-label>
+                <input matInput type="text" name="iban" [ngModel]="selectedContact?.iban" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Importo</mat-label>
+                <input matInput type="number" name="amount" ngModel required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Seleziona una carta</mat-label>
+                <mat-select name="card" ngModel required>
+                    <mat-option [value]="null">None</mat-option>
+                    <mat-option *ngFor="let card of cards" [value]="card._id">{{ card.number }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="!transferForm.valid">
+                Trasferisci denaro
+            </button>
+        </form>
+    </mat-card-content>
+</mat-card>
+<!-- ? Confirm Transfer Dialog -->
+<ng-template #confirmTransfer>
+    <h2 mat-dialog-title>Confermi il trasferimento di denaro?</h2>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Annulla</button>
+        <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Conferma</button>
+      </mat-dialog-actions>
+</ng-template>

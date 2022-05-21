@@ -19,6 +19,7 @@ import { TransferComponent } from './views/transfer/transfer.component';
 import { ContactsComponent } from './views/transfer/components/contacts/contacts.component';
 import { ContactListComponent } from './views/transfer/components/contact-list/contact-list.component';
 import { ContactFormComponent } from './views/transfer/components/contact-form/contact-form.component';
+import { SearchComponent } from './views/transfer/components/search/search.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { ContactFormComponent } from './views/transfer/components/contact-form/c
     ContactsComponent,
     ContactListComponent,
     ContactFormComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

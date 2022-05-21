@@ -1,1 +1,17 @@
-<p>contact-list works!</p>
+<h4 style="font-weight: 500">Contatti</h4>
+<mat-list role="list">
+    <div class="contact-row" *ngFor="let contact of contactList">
+        <div class="contact-info">
+            <mat-icon color="primary">account_circle_full</mat-icon>
+            <div>
+                <span>{{ contact.name | titlecase }} {{ contact.surname | titlecase }}</span>
+                <span>{{ contact.iban }}</span>
+            </div>
+        </div>
+        <div class="contact-actions">
+            <mat-icon matTooltip="Seleziona" (click)="selectContact.emit(contact._id)">done</mat-icon>
+            <mat-icon matTooltip="Modifica" (click)="editContact.emit(contact._id)">edit</mat-icon>
+            <mat-icon matTooltip="Rimuovi" (click)="deleteContact.emit(contact._id)">delete</mat-icon>
+        </div>
+    </div>
+</mat-list>
