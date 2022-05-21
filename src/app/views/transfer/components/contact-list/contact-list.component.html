@@ -1,6 +1,6 @@
 <h4 style="font-weight: 500">Contatti</h4>
 <mat-list role="list">
-    <div class="contact-row" *ngFor="let contact of contactList">
+    <div class="contact-row" *ngFor="let contact of contactList | filterContactByText:searchText">
         <div class="contact-info">
             <mat-icon color="primary">account_circle_full</mat-icon>
             <div>

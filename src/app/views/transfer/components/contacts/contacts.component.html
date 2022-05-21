@@ -1,8 +1,9 @@
 <div mat-dialog-content>
     <ng-container *ngIf="contactStatus === 'list'">
-        <app-search [contacts]="contactList" (filteredContacts)="handleFilteredContacts($event)"></app-search>
+        <app-search [contacts]="contactList" (searchText)="searchTextHandler($event)"></app-search>
         <app-contact-list 
-            [contactList]="filteredContactList" 
+            [searchText]="currentSearchText"
+            [contactList]="contactList" 
             (selectContact)="selectHandler($event)"
             (editContact)="editHandler($event)"
             (deleteContact)="deleteHandler($event)"

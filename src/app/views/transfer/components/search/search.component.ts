@@ -12,7 +12,7 @@ export class SearchComponent implements OnInit {
 
   // TODO: Possibilita' di generalizzare il componente usando un array di elementi generici
   @Input() contacts: Contact[] = [];
-  @Output() filteredContacts = new EventEmitter<Contact[]>();
+  @Output() searchText = new EventEmitter<string>();
 
   searchControl: FormControl = new FormControl('');
   subscription: Subscription | null = null;
@@ -22,12 +22,9 @@ export class SearchComponent implements OnInit {
       startWith(''), debounceTime(300), distinctUntilChanged()
     ).subscribe(search => {
       // If search is empty, return all elements
-      if (search === '') return this.filteredContacts.emit(this.contacts);
+      if (search === '') return this.searchText.emit('');
       // Return filtered items
-      return this.filteredContacts.emit(this.contacts.filter(contact => {
-        return contact.name.toLowerCase().includes(search.toLowerCase())
-          || contact.surname.toLowerCase().includes(search.toLowerCase());
-      }));
+      return this.searchText.emit(search);
     })
   }
 

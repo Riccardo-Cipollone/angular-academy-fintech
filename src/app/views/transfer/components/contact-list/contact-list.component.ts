@@ -10,6 +10,7 @@ import { Contact } from 'src/app/models/contact.model';
 export class ContactListComponent {
 
   @Input() contactList: Contact[] = [];
+  @Input() searchText: string = "";
   @Output() selectContact = new EventEmitter<string>();
   @Output() editContact = new EventEmitter<string>();
   @Output() deleteContact = new EventEmitter<string>();

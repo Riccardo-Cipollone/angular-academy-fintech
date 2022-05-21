@@ -16,17 +16,16 @@ export class ContactsComponent {
     { _id: '789', iban: '3333333333333333', name: 'Jasmine', surname: 'Cipollone' },
     { _id: '222', iban: '4444444444444444', name: 'Fabio', surname: 'Biondi' },
   ]
-  filteredContactList: Contact[] = [...this.contactList];
   selectedContact: Contact | null = null;
+  currentSearchText: string = "";
 
   constructor(
-    public dialogRef: MatDialogRef<ContactsComponent>,
+    public dialogRef: MatDialogRef<ContactsComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  // TODO: MIGLIORARE LOGICA GESTIONE DELL'ARRAY DI CONTATTI
-  handleFilteredContacts(event: Contact[]) {
-    this.filteredContactList = [...event];
+  searchTextHandler(searchText: string) {
+    this.currentSearchText = searchText;
   }
 
   selectHandler(contactId: string): void {
@@ -42,20 +41,19 @@ export class ContactsComponent {
 
   deleteHandler(contactId: string): void {
     this.contactList = this.contactList.filter(item => item._id !== contactId);
-    this.filteredContactList = this.filteredContactList.filter(item => item._id !== contactId);
   }
 
   saveHandler(contact: Contact): void {
     console.log("Contact received: ", contact)
     this.contactStatus = 'list';
     if (this.selectedContact) {
-      // Modalita' Edit
+      // ? Modalita' Edit
       this.contactList = this.contactList.map(item => {
         return item._id === contact._id ? contact : item;
       });
       this.selectedContact = null;
     } else {
-      // Modalita' New
+      // ? Modalita' New
       this.contactList = [...this.contactList, contact]
     }
   }
