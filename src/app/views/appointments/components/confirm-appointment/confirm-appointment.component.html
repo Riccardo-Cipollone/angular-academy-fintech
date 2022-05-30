@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>Confermi l'appuntamento?</h1>
+<p>L'appuntamento sarà fissato per il giorno <span class="bold">{{ data.date | date:'dd/MM/yyyy' }}</span> alle ore <span class="bold">{{ data.slot }}</span>.</p>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Annulla</button>
+    <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Conferma</button>
+</mat-dialog-actions>

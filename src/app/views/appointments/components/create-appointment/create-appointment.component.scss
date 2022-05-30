@@ -1,0 +1,19 @@
+.appointment-container {
+    min-width: 500px;
+    padding: 0 16px 16px;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.map-container {
+    margin-bottom: 16px;
+}
+
+.slot-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
