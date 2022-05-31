@@ -5,9 +5,7 @@
     <mat-card-content>
         <mat-drawer-container class="drawer-container">
             <mat-drawer #drawer mode="side" position="end">
-                <ng-container *ngIf="selectedLocation">
                     <app-create-appointment [selectedLocation]="selectedLocation" (closeDrawer)="drawer.close()"></app-create-appointment>
-                </ng-container>
             </mat-drawer>
             <app-location-list [locationList]="locations" (selectLocation)="selectLocationHandler($event)"></app-location-list>
         </mat-drawer-container>

@@ -1,5 +1,6 @@
 <mat-selection-list role="list" [multiple]="false">
-    <mat-list-option *ngFor="let location of locationList; let i = index" [value]="location" class="card-row" (click)="selectLocation.emit(location)">
+    <mat-list-option *ngFor="let location of locationList" [value]="location" class="card-row"
+        (click)="selectLocation.emit(location)">
         <div class="card-info">
             <mat-icon>location_city</mat-icon>
             <div>

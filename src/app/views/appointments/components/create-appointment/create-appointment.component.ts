@@ -15,7 +15,7 @@ import { ConfirmAppointmentComponent } from '../confirm-appointment/confirm-appo
 export class CreateAppointmentComponent {
 
   @Output() closeDrawer: EventEmitter<null> = new EventEmitter<null>();
-  @Input() selectedLocation!: Location;
+  @Input() selectedLocation: Location | null = null;
 
   appointmentDate: FormControl = new FormControl('');
   availableSlots: DayWithSlots[] = mock_availableSlots;
@@ -27,16 +27,15 @@ export class CreateAppointmentComponent {
     private snackbar: MatSnackBar
   ) { }
 
-
   setAppointmentDate(event: MatDatepickerInputEvent<any>): void {
     const index = this.availableSlots.findIndex(element => new Date(element.day).getTime() === event.value.getTime());
     this.selectedAppointment = { day: this.availableSlots[index].day, slots: this.availableSlots[index].slots }
   }
 
   confirmAppointment(selectedSlot: number) {
-    console.log(selectedSlot)
-    const dialogRef = this.dialog.open(ConfirmAppointmentComponent, { 
-      width: '500px', 
+    console.log(selectedSlot);
+    const dialogRef = this.dialog.open(ConfirmAppointmentComponent, {
+      width: '500px',
       data: {
         date: this.appointmentDate.value,
         slot: selectedSlot
@@ -66,7 +65,6 @@ export class CreateAppointmentComponent {
     this.selectedSlot = null;
     this.closeDrawer.emit();
   }
-
 
 }
 

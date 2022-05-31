@@ -1,10 +1,7 @@
+<div class="map-container">
+    <app-map-appointment *ngIf="selectedLocation" [coords]="selectedLocation?.coords"></app-map-appointment>
+</div>
 <div class="appointment-container">
-    <div class="map-container">
-        <!-- Inserire Mappa all'interno -->
-        <ng-container *ngIf="selectedLocation">
-            <app-map-appointment [coords]="selectedLocation.coords"></app-map-appointment>
-        </ng-container>
-    </div>
     <mat-form-field appearance="fill">
         <mat-label>Seleziona una data:</mat-label>
         <input matInput [matDatepicker]="picker" [formControl]="appointmentDate" [matDatepickerFilter]="dateFilter"
@@ -14,7 +11,8 @@
     </mat-form-field>
     <ng-container *ngIf="appointmentDate.value">
         <mat-selection-list role="list" [multiple]="false">
-            <mat-list-option *ngFor="let slot of selectedAppointment?.slots" [value]="slot" (click)="confirmAppointment(slot)">
+            <mat-list-option *ngFor="let slot of selectedAppointment?.slots" [value]="slot"
+                (click)="confirmAppointment(slot)">
                 <div class="slot-info">
                     <mat-icon>schedule</mat-icon>
                     <span>{{ slot }}</span>

@@ -21,7 +21,6 @@ export class AppointmentsComponent   {
 
 }
 
-
 const locations_mock: Location[] =[
   {
   "_id": "1",
