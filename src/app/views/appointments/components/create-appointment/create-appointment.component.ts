@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,7 +12,7 @@ import { ConfirmAppointmentComponent } from '../confirm-appointment/confirm-appo
   templateUrl: './create-appointment.component.html',
   styleUrls: ['./create-appointment.component.scss']
 })
-export class CreateAppointmentComponent {
+export class CreateAppointmentComponent implements OnChanges{
 
   @Output() closeDrawer: EventEmitter<null> = new EventEmitter<null>();
   @Input() selectedLocation: Location | null = null;
@@ -22,10 +22,23 @@ export class CreateAppointmentComponent {
   selectedAppointment: DayWithSlots | null = null;
   selectedSlot: DayWithSlot | null = null;
 
+  coordinates!: [number, number];
+
   constructor(
     private dialog: MatDialog,
     private snackbar: MatSnackBar
   ) { }
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['selectedLocation'].firstChange) {
+      this.clear();
+    }
+    
+    if (this.selectedLocation) {
+      this.coordinates = this.selectedLocation.coords;
+    }
+  }
 
   setAppointmentDate(event: MatDatepickerInputEvent<any>): void {
     const index = this.availableSlots.findIndex(element => new Date(element.day).getTime() === event.value.getTime());
@@ -48,13 +61,13 @@ export class CreateAppointmentComponent {
         panelClass: 'custom-snackbar'
       });
       this.clear();
+      this.closeDrawer.emit();
     })
   }
 
   dateFilter = (d: Date | null): boolean => {
     const dates: number[] = this.availableSlots.map(slot => new Date(slot.day).getTime());
     const day: number = (d || new Date()).getTime();
-    console.log("render");
 
     return dates.includes(day);
   }
@@ -63,7 +76,6 @@ export class CreateAppointmentComponent {
     this.appointmentDate.reset();
     this.selectedAppointment = null;
     this.selectedSlot = null;
-    this.closeDrawer.emit();
   }
 
 }

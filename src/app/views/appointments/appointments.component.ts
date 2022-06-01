@@ -14,7 +14,12 @@ export class AppointmentsComponent   {
   selectedLocation: Location | null = null;
 
   selectLocationHandler(location: Location) {
-    console.log("Selected location: ", location);
+    if (this.selectedLocation === location) {
+      this.selectedLocation = null;
+      this.drawer.close();
+      return;
+    }
+
     this.selectedLocation = location;
     this.drawer.open();
   }

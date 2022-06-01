@@ -1,5 +1,5 @@
 <div class="map-container">
-    <app-map-appointment *ngIf="selectedLocation" [coords]="selectedLocation?.coords"></app-map-appointment>
+    <app-map-appointment *ngIf="coordinates" [coords]="coordinates"></app-map-appointment>
 </div>
 <div class="appointment-container">
     <mat-form-field appearance="fill">

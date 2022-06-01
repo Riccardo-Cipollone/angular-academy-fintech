@@ -9,10 +9,11 @@ import * as L from 'leaflet';
 export class MapAppointmentComponent implements OnChanges, AfterViewChecked {
 
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef<HTMLDivElement>;
-  @Input() coords: [number, number] | undefined = undefined;
+  @Input() coords!: [number, number];
   map!: L.Map;
   marker!: L.Marker;
 
+  // TODO: Aggiungere nome della location sul Marker e stilizzarlo meglio
   ngOnChanges(changes: SimpleChanges) {
     if (changes['coords'] && changes['coords'].firstChange) {
       const coords: L.LatLngExpression = this.coords as L.LatLngExpression;
@@ -30,9 +31,10 @@ export class MapAppointmentComponent implements OnChanges, AfterViewChecked {
       this.map.setView(coords);
       this.marker.setLatLng(coords);
     }
+
   }
 
-  // TODO: Workaround per renderizzare leaflet dentro ngIf
+  // TODO: Evitare Workaround per renderizzare leaflet dentro ngIf
   ngAfterViewChecked(): void {
     this.map.invalidateSize(true);
   }
