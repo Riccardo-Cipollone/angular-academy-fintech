@@ -10,7 +10,7 @@ import { Location } from '../../models/appointment.model';
 export class AppointmentsComponent   {
 
   @ViewChild('drawer', { static: true }) drawer!: MatDrawer;
-  locations: Location[] = locations_mock;
+  locationList: Location[] = locations_mock;
   selectedLocation: Location | null = null;
 
   selectLocationHandler(location: Location) {
@@ -22,6 +22,11 @@ export class AppointmentsComponent   {
 
     this.selectedLocation = location;
     this.drawer.open();
+  }
+
+  closeDrawerHandler() {
+    this.selectedLocation = null;
+    this.drawer.close();
   }
 
 }

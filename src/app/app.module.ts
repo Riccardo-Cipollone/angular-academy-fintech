@@ -25,6 +25,7 @@ import { LocationListComponent } from './views/appointments/components/location-
 import { CreateAppointmentComponent } from './views/appointments/components/create-appointment/create-appointment.component';
 import { ConfirmAppointmentComponent } from './views/appointments/components/confirm-appointment/confirm-appointment.component';
 import { MapAppointmentComponent } from './views/appointments/components/map-appointment/map-appointment.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { MapAppointmentComponent } from './views/appointments/components/map-app
     CreateAppointmentComponent,
     ConfirmAppointmentComponent,
     MapAppointmentComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,31 @@
+.sidenav-container {
+    height: 100%;
+}
+
+.sidenav {
+    width: 200px;
+}
+
+.sidenav .mat-toolbar {
+    background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.mat-list .mat-list-item-content {
+    display: flex;
+    gap: 16px;
+}
+
+.menu-icons {
+    margin-right: 25px;
+}
+
+// TODO: Da migliorare
+.active-route {
+    background-color: lightblue;
+}

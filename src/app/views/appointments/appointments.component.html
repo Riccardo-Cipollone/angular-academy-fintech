@@ -5,9 +5,11 @@
     <mat-card-content>
         <mat-drawer-container class="drawer-container">
             <mat-drawer #drawer mode="side" position="end">
-                    <app-create-appointment [selectedLocation]="selectedLocation" (closeDrawer)="this.drawer.close()"></app-create-appointment>
+                <app-create-appointment [selectedLocation]="selectedLocation" (closeDrawer)="closeDrawerHandler()">
+                </app-create-appointment>
             </mat-drawer>
-            <app-location-list [locationList]="locations" (selectLocation)="selectLocationHandler($event)"></app-location-list>
+            <app-location-list [locationList]="locationList" (selectLocation)="selectLocationHandler($event)">
+            </app-location-list>
         </mat-drawer-container>
     </mat-card-content>
 </mat-card>
