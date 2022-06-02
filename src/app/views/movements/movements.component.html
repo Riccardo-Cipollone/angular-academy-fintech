@@ -13,7 +13,6 @@
         </mat-form-field>
         <div *ngIf="selectedCard">
             <h1 style="font-weight: bold">Saldo: €{{ selectedCard.amount }}</h1>
-            <!-- ? Faccio vedere solo i primi 5 elementi, aumento con loadMoreMovements -->
             <ng-container *ngFor="let movement of movements | slice:0:max">
                 <app-movement 
                     [title]="movement.title"

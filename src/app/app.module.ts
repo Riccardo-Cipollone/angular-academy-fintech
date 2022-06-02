@@ -6,8 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './shared/material/material.module';
 //* Components
-import { MovementComponent } from './views/movements/components/movement/movement.component';
-import { MovementsComponent } from './views/movements/movements.component';
 import { SharedModule } from './shared/shared.module';
 import { TransferComponent } from './views/transfer/transfer.component';
 import { ContactsComponent } from './views/transfer/components/contacts/contacts.component';
@@ -24,8 +22,6 @@ import { MapAppointmentComponent } from './views/appointments/components/map-app
 @NgModule({
   declarations: [
     AppComponent,
-    MovementComponent,
-    MovementsComponent,
     TransferComponent,
     ContactsComponent,
     ContactListComponent,

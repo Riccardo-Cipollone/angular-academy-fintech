@@ -9,7 +9,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [CardsComponent, CardFormComponent, CardListComponent],
+  declarations: [
+    CardsComponent, 
+    CardFormComponent, 
+    CardListComponent
+  ],
   imports: [
     CommonModule,
     CardsRoutingModule,
