@@ -6,9 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './shared/material/material.module';
 //* Components
-import { CardsComponent } from './views/cards/cards.component';
-import { CardListComponent } from './views/cards/components/card-list/card-list.component';
-import { CardFormComponent } from './views/cards/components/card-form/card-form.component';
 import { MovementComponent } from './views/movements/components/movement/movement.component';
 import { MovementsComponent } from './views/movements/movements.component';
 import { SharedModule } from './shared/shared.module';
@@ -22,15 +19,11 @@ import { LocationListComponent } from './views/appointments/components/location-
 import { CreateAppointmentComponent } from './views/appointments/components/create-appointment/create-appointment.component';
 import { ConfirmAppointmentComponent } from './views/appointments/components/confirm-appointment/confirm-appointment.component';
 import { MapAppointmentComponent } from './views/appointments/components/map-appointment/map-appointment.component';
-import { DashboardComponent } from './views/dashboard/dashboard.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CardListComponent,
-    CardFormComponent,
-    CardsComponent,
     MovementComponent,
     MovementsComponent,
     TransferComponent,
@@ -42,8 +35,7 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
     LocationListComponent,
     CreateAppointmentComponent,
     ConfirmAppointmentComponent,
-    MapAppointmentComponent,
-    DashboardComponent
+    MapAppointmentComponent
   ],
   imports: [
     BrowserModule,

@@ -12,8 +12,9 @@ export class SignInComponent {
 
   constructor(private router: Router) {}
 
+  // TODO: Rivedere quando permettere il login e quando no
   login(formData: { email: string, password: string }) {
-    if (formData.email !== "" && formData.password !== "") {
+    if (formData.email !== null && formData.password !== null) {
       console.log("Login form data: ", formData);
       this.router.navigateByUrl('/dashboard')
     }
