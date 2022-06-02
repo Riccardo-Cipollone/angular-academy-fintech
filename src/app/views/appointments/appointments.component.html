@@ -1,15 +1,10 @@
-<mat-card>
-    <mat-card-title>
-        <h4 class="title">Sedi</h4>
-    </mat-card-title>
-    <mat-card-content>
-        <mat-drawer-container class="drawer-container">
-            <mat-drawer #drawer mode="side" position="end">
-                <app-create-appointment [selectedLocation]="selectedLocation" (closeDrawer)="closeDrawerHandler()">
-                </app-create-appointment>
-            </mat-drawer>
-            <app-location-list [locationList]="locationList" (selectLocation)="selectLocationHandler($event)">
-            </app-location-list>
-        </mat-drawer-container>
-    </mat-card-content>
-</mat-card>
+<mat-drawer-container class="drawer-container">
+    <mat-drawer #drawer mode="side" position="end">
+        <app-create-appointment [selectedLocation]="selectedLocation" (closeDrawer)="closeDrawerHandler()">
+        </app-create-appointment>
+    </mat-drawer>
+    <h4 class="title">Sedi</h4>
+
+    <app-location-list [locationList]="locationList" (selectLocation)="selectLocationHandler($event)">
+    </app-location-list>
+</mat-drawer-container>

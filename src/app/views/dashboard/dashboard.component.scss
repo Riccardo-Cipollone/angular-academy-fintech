@@ -25,9 +25,9 @@
     margin-right: 25px;
 }
 
-// TODO: Da migliorare
-.active-route {
-    background-color: lightblue;
+.active {
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.04);
 }
 
 .dashboard-content {

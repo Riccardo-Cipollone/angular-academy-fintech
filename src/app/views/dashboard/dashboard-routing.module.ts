@@ -7,8 +7,8 @@ const routes: Routes = [
         // AGGIUNGERE PATH A HOME !
         { path: 'cards', loadChildren: () => import('../cards/cards.module').then(m => m.CardsModule)},
         { path: 'movements', loadChildren: () => import('../movements/movements.module').then(m => m.MovementsModule)},
-        // { path: 'transfers', loadChildren: () => import('../transfer/transfer.module').then(m => m.TransferModule)},
-        // { path: 'appointments', loadChildren: () => import('../appointments/appointments.module').then(m => m.AppointmentsModule)},
+        { path: 'transfers', loadChildren: () => import('../transfer/transfer.module').then(m => m.TransferModule)},
+        { path: 'appointments', loadChildren: () => import('../appointments/appointments.module').then(m => m.AppointmentsModule)},
         // { path: 'taxes', loadChildren: () => import('../taxes/taxes.module').then(m => m.TaxesModule)},
     ]},
 ];

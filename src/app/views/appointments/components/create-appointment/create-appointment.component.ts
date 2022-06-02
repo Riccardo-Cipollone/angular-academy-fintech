@@ -12,7 +12,7 @@ import { ConfirmAppointmentComponent } from '../confirm-appointment/confirm-appo
   templateUrl: './create-appointment.component.html',
   styleUrls: ['./create-appointment.component.scss']
 })
-export class CreateAppointmentComponent implements OnChanges{
+export class CreateAppointmentComponent implements OnChanges {
 
   @Output() closeDrawer: EventEmitter<null> = new EventEmitter<null>();
   @Input() selectedLocation: Location | null = null;
@@ -34,7 +34,7 @@ export class CreateAppointmentComponent implements OnChanges{
     if (!changes['selectedLocation'].firstChange) {
       this.clear();
     }
-    
+
     if (this.selectedLocation) {
       this.coordinates = this.selectedLocation.coords;
     }

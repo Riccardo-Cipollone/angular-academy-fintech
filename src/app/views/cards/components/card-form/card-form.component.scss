@@ -7,9 +7,20 @@ mat-form-field {
 }
 
 .form-layout {
-    display: flex; 
+    display: flex;
     flex-direction: column;
     gap: 16px;
+    padding-top: 16px;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+        margin: 0;
+    }
 }
 
 .form-actions {
