@@ -6,9 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './shared/material/material.module';
 //* Components
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/login/components/register/register.component';
-import { SignInComponent } from './views/login/components/sign-in/sign-in.component';
 import { CardsComponent } from './views/cards/cards.component';
 import { CardListComponent } from './views/cards/components/card-list/card-list.component';
 import { CardFormComponent } from './views/cards/components/card-form/card-form.component';
@@ -31,9 +28,6 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SignInComponent,
-    RegisterComponent,
-    LoginComponent,
     CardListComponent,
     CardFormComponent,
     CardsComponent,

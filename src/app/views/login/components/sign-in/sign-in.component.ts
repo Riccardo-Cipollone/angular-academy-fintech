@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -9,9 +10,12 @@ export class SignInComponent {
 
   isHidden: boolean = true;
 
+  constructor(private router: Router) {}
+
   login(formData: { email: string, password: string }) {
     if (formData.email !== "" && formData.password !== "") {
       console.log("Login form data: ", formData);
+      this.router.navigateByUrl('/dashboard')
     }
   }
 

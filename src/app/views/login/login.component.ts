@@ -7,13 +7,4 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
-  activeForm: 'login' | 'register' = 'login';
-
-  selectForm(): void {
-    if (this.activeForm === 'login')
-      this.activeForm = 'register';
-    else
-      this.activeForm = 'login';
-  }
-
 }

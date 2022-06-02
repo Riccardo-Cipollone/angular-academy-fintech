@@ -1,7 +1,5 @@
-<mat-card class="form-container">
-    <app-sign-in *ngIf="activeForm === 'login'" (registerRedirect)="activeForm = 'register'"></app-sign-in>
-    <app-register *ngIf="activeForm === 'register'" (signInRedirect)="activeForm = 'login'"></app-register>
-    <a (click)="selectForm()" href="#" style="display: inline-block; margin-top: 16px">
-        {{ activeForm === 'login' ? 'Crea un nuovo account' : 'Hai già un account? Accedi'}}
-    </a>
-</mat-card>
+<div class="login-page">
+    <mat-card class="form-container">
+        <router-outlet></router-outlet>
+    </mat-card>
+</div>
