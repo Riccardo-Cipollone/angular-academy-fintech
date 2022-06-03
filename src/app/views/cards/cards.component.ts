@@ -1,6 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CardsService } from 'src/app/api/cards.service';
 import { Card, CardForm } from 'src/app/models/card.model';
 import { CardFormComponent } from './components/card-form/card-form.component';
 
@@ -9,49 +10,37 @@ import { CardFormComponent } from './components/card-form/card-form.component';
   templateUrl: './cards.component.html',
   styleUrls: ['./cards.component.scss']
 })
-export class CardsComponent {
+export class CardsComponent implements OnInit {
 
   @ViewChild('drawer', { static: true }) drawer!: MatDrawer;
   @ViewChild(CardFormComponent, { static: true }) formComponentRef!: CardFormComponent;
 
-  cards: Card[] = [
-    {
-      "_id": "824c3060-434c-43a4-8ee2-167bd86fd633",
-      "number": "0000 0000 0000 0000",
-      "ownerId": "et45er5e6fba",
-      "owner": "Mario Rossi",
-      "type": "visa",
-      "amount": 15000
-    },
-    {
-      "_id": "5375c1e2-68af-4315-bb79-e8747890b6f1",
-      "number": "1111 1111 1111 1111",
-      "ownerId": "et45er5e6fba",
-      "owner": "Mario Rossi",
-      "type": "mastercard",
-      "amount": 500
-    },
-    {
-      "_id": "e84ca48d-1933-4f4c-bf59-8f5eddc60bd7",
-      "number": "2222 2222 2222 2222",
-      "ownerId": "et45er5e6fba",
-      "owner": "Mario Rossi",
-      "type": "visa",
-      "amount": 250000
-    }
-  ]
+  cards: Card[] = [];
 
-  constructor(private snackbarService: MatSnackBar) { }
+  constructor(
+    private snackbarService: MatSnackBar,
+    private cardService: CardsService
+  ) { }
+
+  ngOnInit(): void {
+    this.cardService.getAllCards().subscribe(cards => {
+      console.table(cards);
+      this.cards = cards;
+    })
+  }
 
   addCardHandler(formData: CardForm) {
-    this.cards = [
-      ...this.cards,
-      { _id: 'test', amount: 1000, number: formData.cardNumber, owner: formData.name, ownerId: '12345', type: formData.type }
-    ];
-    this.dispose();
-    this.snackbarService.open("Carta aggiunta con successo!", "Chiudi", {
-      duration: 3000,
-      panelClass: 'custom-snackbar'
+    this.cardService.createNewCard(formData).subscribe({
+      next: result => {
+        this.cards = [...this.cards, result];
+        this.dispose();
+        this.openSnackbarNotification("Carta aggiunta con successo! 😎");
+      },
+      error: err => {
+        console.error(err);
+        this.dispose();
+        this.openSnackbarNotification("Errore durante l'inserimento 😢");
+      }
     })
   }
 
@@ -61,20 +50,28 @@ export class CardsComponent {
   }
 
   removeCardHandler(cardId: string): void {
-    this.cards = this.cards.filter(card => card._id !== cardId);
-    this.snackbarService.open("Carta rimossa con successo!", "Chiudi", {
-      duration: 3000,
-      panelClass: 'custom-snackbar'
+    this.cardService.deleteCard(cardId).subscribe({
+      next: (result) => {
+        this.cards = this.cards.filter(card => card._id !== cardId);
+        this.openSnackbarNotification("Carta rimossa con successo 😎");
+      },
+      error: err => {
+        console.error(err);
+        this.openSnackbarNotification("Errore durante la rimozione 😢");
+      }
     })
   }
 
-  cancelHandler() {
-    this.dispose();
-  }
-
-  private dispose() {
+  dispose(): void {
     this.drawer.close();
     this.formComponentRef.cleanup();
+  }
+
+  private openSnackbarNotification(text: string) {
+    this.snackbarService.open(text, "Chiudi", {
+      duration: 3000,
+      panelClass: 'custom-snackbar'
+    })
   }
 
 

@@ -11,9 +11,9 @@ export interface Card {
 }
 
 export interface CardForm {
-    type: 'visa' | 'mastercard';
     name: string;
     surname: string;
-    cardNumber: string;
-    securityCode: number;
+    type: 'visa' | 'mastercard';
+    number: string;
+    csc: number;
 }

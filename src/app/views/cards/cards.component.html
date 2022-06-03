@@ -1,7 +1,7 @@
 <mat-drawer-container class="drawer-container">
 
     <mat-drawer #drawer mode="side" position="end">
-        <app-card-form (addCard)="addCardHandler($event)" (cancel)="cancelHandler()">
+        <app-card-form (addCard)="addCardHandler($event)" (cancel)="dispose()">
         </app-card-form>
     </mat-drawer>
 

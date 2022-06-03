@@ -7,7 +7,6 @@ import { CardListComponent } from './components/card-list/card-list.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
 @NgModule({
   declarations: [
     CardsComponent, 

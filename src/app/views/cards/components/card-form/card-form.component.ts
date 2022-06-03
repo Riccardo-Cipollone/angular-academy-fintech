@@ -33,15 +33,11 @@ export class CardFormComponent {
     type: ['', Validators.required],
     name: ['', Validators.required],
     surname: ['', Validators.required],
-    cardNumber: ['', [Validators.required, requiredLengthValidator(16)]],
-    security: ['', [Validators.required, requiredLengthValidator(3)]],
+    number: ['', [Validators.required, requiredLengthValidator(16)]],
+    csc: ['', [Validators.required, requiredLengthValidator(3)]],
   })
 
   constructor(private fb: FormBuilder) { }
-
-  log() {
-    console.log(this.cardForm)
-  }
 
   cleanup() {
     this.cardForm.reset();
