@@ -10,6 +10,7 @@ export class MapAppointmentComponent implements OnChanges, AfterViewChecked {
 
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef<HTMLDivElement>;
   @Input() coords!: [number, number];
+  @Input() location!: string;
   map!: L.Map;
   marker!: L.Marker;
 
@@ -23,6 +24,7 @@ export class MapAppointmentComponent implements OnChanges, AfterViewChecked {
 
       this.marker = L.marker(coords)
         .addTo(this.map)
+        // .bindPopup(this.location)
         .openPopup();
     }
 

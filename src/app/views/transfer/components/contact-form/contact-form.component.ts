@@ -24,7 +24,9 @@ export class ContactFormComponent implements OnInit, OnDestroy {
       this.saveContact.emit(editedContact);
       return;
     }
-    this.saveContact.emit({_id: Math.floor(Math.random() * 10).toString(), ...contact});
+    
+    const id = Math.floor(Math.random() *10).toString();
+    this.saveContact.emit({_id: id, ...contact});
   }
 
   ngOnDestroy(): void {

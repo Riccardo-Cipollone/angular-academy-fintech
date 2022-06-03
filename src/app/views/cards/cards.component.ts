@@ -72,7 +72,7 @@ export class CardsComponent {
     this.dispose();
   }
 
-  dispose() {
+  private dispose() {
     this.drawer.close();
     this.formComponentRef.cleanup();
   }

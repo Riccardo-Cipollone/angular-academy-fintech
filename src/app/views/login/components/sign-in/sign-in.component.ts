@@ -10,7 +10,7 @@ export class SignInComponent {
 
   isHidden: boolean = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   // TODO: Rivedere quando permettere il login e quando no
   login(formData: { email: string, password: string }) {

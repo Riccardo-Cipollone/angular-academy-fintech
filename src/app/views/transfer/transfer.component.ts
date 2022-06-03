@@ -50,13 +50,10 @@ export class TransferComponent {
   ) { }
 
   openContactList() {
-    const dialogRef = this.dialog.open(ContactsComponent, {
-      width: '500px',
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.selectedContact = result;
-      }
+    const dialogRef = this.dialog.open(ContactsComponent, { width: '500px' });
+
+    dialogRef.afterClosed().pipe(filter(res => res)).subscribe(result => {
+      this.selectedContact = result;
     })
   }
 
@@ -69,7 +66,7 @@ export class TransferComponent {
         console.log(form.value);
         this.snackbar.open("Denaro trasferito con successo!", "Chiudi", { duration: 3000, panelClass: 'custom-snackbar' })
       },
-      complete: () => { console.log("Completed!")}
+      complete: () => { console.log("Completed!") }
     })
   }
 

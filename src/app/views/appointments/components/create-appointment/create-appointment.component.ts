@@ -23,6 +23,7 @@ export class CreateAppointmentComponent implements OnChanges {
   selectedSlot: DayWithSlot | null = null;
 
   coordinates!: [number, number];
+  location!: string;
 
   constructor(
     private dialog: MatDialog,
@@ -37,6 +38,7 @@ export class CreateAppointmentComponent implements OnChanges {
 
     if (this.selectedLocation) {
       this.coordinates = this.selectedLocation.coords;
+      this.location = this.selectedLocation.address;
     }
   }
 
@@ -55,7 +57,7 @@ export class CreateAppointmentComponent implements OnChanges {
       }
     });
 
-    dialogRef.afterClosed().pipe(filter(stream => stream)).subscribe(result => {
+    dialogRef.afterClosed().pipe(filter(res => res)).subscribe(result => {
       this.snackbar.open("Appuntamento confermato!", "", {
         duration: 3000,
         panelClass: 'custom-snackbar'

@@ -1,9 +1,8 @@
-<mat-card>
+<mat-card class="mat-elevation-z0">
     <mat-card-title>Lista dei movimenti</mat-card-title>
     <mat-card-content>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" style="margin-top: 20px">
             <mat-label>Seleziona una carta:</mat-label>
-            <!-- TODO: Reagire alla selezione con valueChanges e Reactive Forms -->
             <mat-select (selectionChange)="selectCard($event)">
                 <mat-option [value]="null">None</mat-option>
                 <mat-option *ngFor="let card of cards" [value]="card._id">

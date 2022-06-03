@@ -15,8 +15,7 @@ export class AppointmentsComponent   {
 
   selectLocationHandler(location: Location) {
     if (this.selectedLocation === location) {
-      this.selectedLocation = null;
-      this.drawer.close();
+      this.dispose();
       return;
     }
 
@@ -25,6 +24,10 @@ export class AppointmentsComponent   {
   }
 
   closeDrawerHandler() {
+    this.dispose();
+  }
+
+  private dispose() {
     this.selectedLocation = null;
     this.drawer.close();
   }

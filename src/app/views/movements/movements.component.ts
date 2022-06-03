@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Card } from 'src/app/models/card.model';
 import { Movement } from 'src/app/models/movement.model';
 
@@ -12,11 +13,13 @@ export class MovementsComponent {
 
   cards: Card[] = MOCK_CARDS;
   movements: Movement[] = MOCK_MOVEMENTS;
-  selectedCard: Card | undefined = undefined;
+  selectedCard: Card | undefined;
   max: number = 5;
 
+  constructor(private snackbar: MatSnackBar) { }
+
   selectCard(event: MatSelectChange) {
-    const foundCard = this.cards.find(card => card._id === event.value);
+    const foundCard: Card | undefined = this.cards.find(card => card._id === event.value);
     if (this.selectedCard === foundCard) {
       return;
     }
@@ -25,7 +28,10 @@ export class MovementsComponent {
   }
 
   loadMoreMovements() {
-    if (this.max === 25) return;
+    if (this.max === 25 || this.max > this.movements.length) {
+      this.snackbar.open("The max has been reached!", "Close", { panelClass: 'custom-snackbar', duration: 3000 });
+      return;
+    }
     this.max = this.max + 5;
   }
 }

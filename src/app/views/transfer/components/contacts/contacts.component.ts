@@ -44,7 +44,6 @@ export class ContactsComponent {
   }
 
   saveHandler(contact: Contact): void {
-    console.log("Contact received: ", contact)
     this.contactStatus = 'list';
     if (this.selectedContact) {
       // ? Modalita' Edit
@@ -54,7 +53,7 @@ export class ContactsComponent {
       this.selectedContact = null;
     } else {
       // ? Modalita' New
-      this.contactList = [...this.contactList, contact]
+      this.contactList = [...this.contactList, contact];
     }
   }
 
@@ -67,4 +66,5 @@ export class ContactsComponent {
     this.contactStatus = 'list';
     this.selectedContact = null;
   }
+  
 }

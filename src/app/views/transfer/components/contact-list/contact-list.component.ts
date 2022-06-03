@@ -15,5 +15,4 @@ export class ContactListComponent {
   @Output() editContact = new EventEmitter<string>();
   @Output() deleteContact = new EventEmitter<string>();
 
-
 }
