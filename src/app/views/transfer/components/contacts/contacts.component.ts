@@ -1,5 +1,6 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ContactsService } from 'src/app/api/contacts.service';
 import { Contact } from 'src/app/models/contact.model';
 
 @Component({
@@ -7,25 +8,52 @@ import { Contact } from 'src/app/models/contact.model';
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss']
 })
-export class ContactsComponent {
+export class ContactsComponent implements OnInit {
 
   contactStatus: 'list' | 'form' = 'list';
-  contactList: Contact[] = [
-    { _id: '123', iban: '1111111111111111', name: 'Riccardo', surname: 'Cipollone' },
-    { _id: '456', iban: '2222222222222222', name: 'Fabio', surname: 'Di Marco' },
-    { _id: '789', iban: '3333333333333333', name: 'Jasmine', surname: 'Cipollone' },
-    { _id: '222', iban: '4444444444444444', name: 'Fabio', surname: 'Biondi' },
-  ]
+  contactList: Contact[] = [];
   selectedContact: Contact | null = null;
   currentSearchText: string = "";
 
   constructor(
-    public dialogRef: MatDialogRef<ContactsComponent>, 
+    private contactSrv: ContactsService,
+    public dialogRef: MatDialogRef<ContactsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
+  ngOnInit(): void {
+    this.contactSrv.getAllContacts().subscribe({
+      next: contacts => {
+        console.table(contacts);
+        this.contactList = contacts;
+      }
+    })
+  }
+
   searchTextHandler(searchText: string) {
     this.currentSearchText = searchText;
+  }
+
+  saveHandler(contact: Partial<Contact>): void {
+    this.contactStatus = 'list';
+    if (this.selectedContact) {
+      // ? Modalita' Edit
+      this.contactSrv.editContact(contact).subscribe({
+        next: result => {
+          this.contactList = this.contactList.map(item => {
+            return item._id === result._id ? result : item;
+          })
+          this.selectedContact = null;
+        }
+      })
+    } else {
+      // ? Modalita' New
+      this.contactSrv.createNewContact(contact).subscribe({
+        next: result => {
+          this.contactList = [...this.contactList, result];
+        }
+      })
+    }
   }
 
   selectHandler(contactId: string): void {
@@ -40,21 +68,11 @@ export class ContactsComponent {
   }
 
   deleteHandler(contactId: string): void {
-    this.contactList = this.contactList.filter(item => item._id !== contactId);
-  }
-
-  saveHandler(contact: Contact): void {
-    this.contactStatus = 'list';
-    if (this.selectedContact) {
-      // ? Modalita' Edit
-      this.contactList = this.contactList.map(item => {
-        return item._id === contact._id ? contact : item;
-      });
-      this.selectedContact = null;
-    } else {
-      // ? Modalita' New
-      this.contactList = [...this.contactList, contact];
-    }
+    this.contactSrv.deleteContact(contactId).subscribe({
+      next: item => {
+        this.contactList = this.contactList.filter(item => item._id !== contactId);
+      }
+    })
   }
 
   newContact(): void {
@@ -66,5 +84,5 @@ export class ContactsComponent {
     this.contactStatus = 'list';
     this.selectedContact = null;
   }
-  
+
 }

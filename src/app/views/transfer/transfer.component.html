@@ -25,7 +25,7 @@
 
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Seleziona una carta</mat-label>
-                <mat-select name="card" ngModel required>
+                <mat-select name="cardId" ngModel required>
                     <mat-option [value]="null">None</mat-option>
                     <mat-option *ngFor="let card of cards" [value]="card._id">{{ card.number }}</mat-option>
                 </mat-select>

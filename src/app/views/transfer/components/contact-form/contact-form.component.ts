@@ -7,17 +7,17 @@ import { Contact, ContactForm } from 'src/app/models/contact.model';
   templateUrl: './contact-form.component.html',
   styleUrls: ['./contact-form.component.scss']
 })
-export class ContactFormComponent implements OnInit, OnDestroy {
+export class ContactFormComponent implements OnDestroy {
   
-  @Output() saveContact = new EventEmitter<Contact>();
+  @ViewChild('f', { static: true }) formRef!: NgForm;
+
+  @Output() saveContact = new EventEmitter<Partial<Contact>>();
   @Input() initialContact: Contact | null = null;
 
-  @ViewChild('f', { static: true }) formRef!: NgForm;
-  
-  ngOnInit(): void {
+  constructor() {
     console.log("Contatto selezionato: ", this.initialContact);
   }
-
+  
   saveContactEvent(contact: ContactForm) {
     if (this.initialContact) {
       const editedContact: Contact = {_id: this.initialContact._id, ...contact};
@@ -25,8 +25,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
       return;
     }
     
-    const id = Math.floor(Math.random() *10).toString();
-    this.saveContact.emit({_id: id, ...contact});
+    this.saveContact.emit({...contact});
   }
 
   ngOnDestroy(): void {
