@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,13 +10,19 @@ import { Router } from '@angular/router';
 export class SignInComponent {
 
   isHidden: boolean = true;
+  loginForm = this.fb.group({
+    email: ['', Validators.required],
+    password: ['', Validators.required]
+  })
 
-  constructor(private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router
+  ) { }
 
-  // TODO: Rivedere quando permettere il login e quando no
-  login(formData: { email: string, password: string }) {
-    if (formData.email !== null && formData.password !== null) {
-      console.log("Login form data: ", formData);
+  login() {
+    if (this.loginForm.valid) {
+      console.log(this.loginForm.value);
       this.router.navigateByUrl('/dashboard')
     }
   }

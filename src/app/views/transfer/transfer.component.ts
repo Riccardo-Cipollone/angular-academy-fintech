@@ -63,7 +63,7 @@ export class TransferComponent implements OnInit {
     const { name, surname, iban, transferGroup } = this.transferForm.value;
     const { amount, cardId } = transferGroup;
 
-    const transferObject: Transfer = {name, surname, iban, amount, cardId };
+    const transferObject: Transfer = { name, surname, iban, amount, cardId };
     const dialogRef = this.dialog.open(this.templateRef);
 
     dialogRef.afterClosed().pipe(
@@ -76,7 +76,7 @@ export class TransferComponent implements OnInit {
       next: () => {
         this.snackbar.open("Denaro trasferito con successo! 😎", "Chiudi", { duration: 3000, panelClass: 'custom-snackbar' });
         this.transferForm.reset();
-      }, 
+      },
       error: err => {
         this.snackbar.open("C'è stato un problema con il transferimento 😢", "Chiudi", { duration: 3000, panelClass: 'custom-snackbar' })
       }
@@ -87,5 +87,5 @@ export class TransferComponent implements OnInit {
     const { name, surname, iban } = contact;
     this.transferForm.patchValue({ name, surname, iban })
   }
-  
+
 }

@@ -1,15 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from 'src/app/shared/material/material.module';
-import { TransferRoutingModule } from './transfer-routing.module';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { ContactFormComponent } from './components/contact-form/contact-form.component';
 import { ContactListComponent } from './components/contact-list/contact-list.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { SearchComponent } from './components/search/search.component';
+import { TransferRoutingModule } from './transfer-routing.module';
 import { TransferComponent } from './transfer.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from 'src/app/shared/shared.module';
-
 
 
 @NgModule({
@@ -24,7 +22,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     TransferRoutingModule,
     ReactiveFormsModule,
-    FormsModule,
     SharedModule
   ]
 })

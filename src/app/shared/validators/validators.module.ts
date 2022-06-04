@@ -1,10 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IbanValidatorDirective } from './iban.validator';
-import { EqualFieldsValidator } from './equal-fields.validator';
+import { NgModule } from '@angular/core';
 import { AmountValidatorDirective } from './amount.validator';
+import { CodiceFiscaleValidatorDirective } from './codice-fiscale.validator';
+import { EqualFieldsValidator } from './equal-fields.validator';
+import { IbanValidatorDirective } from './iban.validator';
+import { TransferValidatorDirective } from './transfer.validator';
 
-const validators = [IbanValidatorDirective, EqualFieldsValidator, AmountValidatorDirective];
+const validators = [
+  IbanValidatorDirective,
+  EqualFieldsValidator,
+  AmountValidatorDirective,
+  CodiceFiscaleValidatorDirective,
+  TransferValidatorDirective
+];
 
 @NgModule({
   declarations: [

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RegisterComponent } from './components/register/register.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
@@ -18,7 +18,6 @@ import { LoginComponent } from './login.component';
     CommonModule, 
     LoginRoutingModule,
     SharedModule,
-    FormsModule,
     ReactiveFormsModule
   ]
 })

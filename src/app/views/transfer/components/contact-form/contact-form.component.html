@@ -1,21 +1,21 @@
-<form #f="ngForm" (ngSubmit)="saveContactEvent(f.value)" class="form-layout">
+<form [formGroup]="contactForm" (ngSubmit)="saveContactEvent()" class="form-layout">
     <mat-form-field appearance="fill" class="full-width">
         <mat-label>Nome</mat-label>
-        <input matInput type="text" name="name" [ngModel]="initialContact?.name" required>
+        <input matInput type="text" formControlName="name">
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
         <mat-label>Cognome</mat-label>
-        <input matInput type="text" name="surname" [ngModel]="initialContact?.surname" required>
+        <input matInput type="text" formControlName="surname">
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
         <mat-label>IBAN</mat-label>
-        <input matInput type="text" name="iban" [ngModel]="initialContact?.iban" required ibanValidator>
+        <input matInput type="text" formControlName="iban">
         <mat-hint>Es: IT00A0000011111AA1234567890</mat-hint>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="!f.valid" cdkFocusInitial>
+    <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="!contactForm.valid" cdkFocusInitial>
         Salva
     </button>
 </form>

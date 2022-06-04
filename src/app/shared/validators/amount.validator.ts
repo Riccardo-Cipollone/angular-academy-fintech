@@ -19,5 +19,5 @@ export function amountValidator(control: AbstractControl): ValidationErrors | nu
 export class AmountValidatorDirective implements Validator {
 
     validate(control: AbstractControl): ValidationErrors | null { return amountValidator(control) }
-    
+
 } 

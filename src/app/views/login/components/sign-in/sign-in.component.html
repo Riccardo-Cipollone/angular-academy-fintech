@@ -1,16 +1,15 @@
-<form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
+<form [formGroup]="loginForm" (ngSubmit)="login()">
     <!-- ? Email Field -->
     <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
-        <input type="email" name="email" [ngModel] matInput placeholder="Inserisci email..." required>
+        <input matInput type="email" formControlName="email" placeholder="Inserisci email...">
         <mat-icon matPrefix color="primary">person</mat-icon>
     </mat-form-field>
 
     <!-- ? Password Field -->
     <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
-        <input [type]="isHidden ? 'password' : 'text'" name="password" [ngModel] matInput
-            placeholder="Inserisci password..." required>
+        <input matInput [type]="isHidden ? 'password' : 'text'" formControlName="password" placeholder="Inserisci password...">
         <mat-icon matPrefix color="primary">lock</mat-icon>
         <mat-icon matSuffix color="primary" style="cursor: pointer" (click)="toggleVisibility($event)">
             {{ isHidden ? 'visibility_off' : 'visibility' }}

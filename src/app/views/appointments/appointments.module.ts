@@ -9,7 +9,6 @@ import { CreateAppointmentComponent } from './components/create-appointment/crea
 import { LocationListComponent } from './components/location-list/location-list.component';
 import { MapAppointmentComponent } from './components/map-appointment/map-appointment.component';
 
-
 @NgModule({
   declarations: [
     AppointmentsComponent,

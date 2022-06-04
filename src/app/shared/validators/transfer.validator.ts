@@ -1,7 +1,25 @@
 import { Directive, Injectable } from "@angular/core";
 import { AbstractControl, AsyncValidator, AsyncValidatorFn, NG_ASYNC_VALIDATORS, ValidationErrors } from "@angular/forms";
-import { debounceTime, map, Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { CardsService } from "src/app/api/cards.service";
+
+@Directive({
+    selector: '[transferValidator]',
+    providers: [
+        {
+            provide: NG_ASYNC_VALIDATORS,
+            useExisting: TransferValidatorDirective,
+            multi: true
+        }
+    ]
+})
+export class TransferValidatorDirective implements AsyncValidator {
+    constructor(private transferValidator: TransferValidator) { }
+
+    validate(control: AbstractControl) {
+        return this.transferValidator.validate()(control);
+    }
+}
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +38,6 @@ export class TransferValidator {
                     const selectedCard = cards.find(card => card._id === selectedCardId);
                     if (selectedCard) {
                         const cardBalance = selectedCard?.amount - amount;
-                        console.log("card balance: ", cardBalance)
                         return cardBalance > 0 ? null : { negativeBalance: cardBalance }
                     }
                     // ? Shouldn't be possible to return this error.
@@ -29,24 +46,5 @@ export class TransferValidator {
             )
         }
     }
-}
-
-@Directive({
-    selector: '[transferValidator]',
-    providers: [
-        {
-            provide: NG_ASYNC_VALIDATORS,
-            useExisting: TransferValidatorDirective,
-            multi: true
-        }
-    ]
-})
-export class TransferValidatorDirective implements AsyncValidator {
-
-    constructor(private transferValidator: TransferValidator) { }
-
-    validate(control: AbstractControl) {
-        return this.transferValidator.validate()(control);
-    }
-
+    
 }

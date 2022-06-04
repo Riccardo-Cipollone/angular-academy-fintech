@@ -1,34 +1,47 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Contact, ContactForm } from 'src/app/models/contact.model';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Contact } from 'src/app/models/contact.model';
+import { ibanValidator } from 'src/app/shared/validators/iban.validator';
 
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
   styleUrls: ['./contact-form.component.scss']
 })
-export class ContactFormComponent implements OnDestroy {
+export class ContactFormComponent implements OnInit, OnDestroy {
   
-  @ViewChild('f', { static: true }) formRef!: NgForm;
-
   @Output() saveContact = new EventEmitter<Partial<Contact>>();
   @Input() initialContact: Contact | null = null;
 
-  constructor() {
-    console.log("Contatto selezionato: ", this.initialContact);
+  contactForm = this.fb.group({
+    name: ['', Validators.required],
+    surname: ['', Validators.required],
+    iban: ['', [Validators.required, ibanValidator]],
+  })
+
+  constructor(private fb: FormBuilder) { }
+
+  ngOnInit(): void {
+    if (this.initialContact) {
+      this.contactForm.setValue({ 
+        name: this.initialContact.name, 
+        surname: this.initialContact.surname,
+        iban: this.initialContact.iban
+      })
+    }
   }
   
-  saveContactEvent(contact: ContactForm) {
+  saveContactEvent() {
     if (this.initialContact) {
-      const editedContact: Contact = {_id: this.initialContact._id, ...contact};
+      const editedContact: Contact = {_id: this.initialContact._id, ...this.contactForm.value};
       this.saveContact.emit(editedContact);
       return;
     }
     
-    this.saveContact.emit({...contact});
+    this.saveContact.emit({...this.contactForm.value});
   }
 
   ngOnDestroy(): void {
-    this.formRef.reset();
+    this.contactForm.reset();
   }
 }

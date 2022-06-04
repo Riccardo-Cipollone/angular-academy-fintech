@@ -30,7 +30,8 @@
                     <mat-error *ngIf="transferForm.controls['transferGroup'].get('amount')?.hasError('required')">
                         Campo obbligatorio
                     </mat-error>
-                    <mat-error *ngIf="transferForm.controls['transferGroup'].get('amount')?.hasError('invalidAmount')">Ammontare invalido
+                    <mat-error *ngIf="transferForm.controls['transferGroup'].get('amount')?.hasError('invalidAmount')">
+                        Ammontare invalido
                     </mat-error>
                 </mat-form-field>
 
@@ -40,7 +41,8 @@
                         <mat-option [value]="null">None</mat-option>
                         <mat-option *ngFor="let card of cards" [value]="card._id">{{ card.number }}</mat-option>
                     </mat-select>
-                    <mat-error *ngIf="transferForm.controls['transferGroup'].get('amount')?.hasError('required')">Campo obbligatorio
+                    <mat-error *ngIf="transferForm.controls['transferGroup'].get('amount')?.hasError('required')">Campo
+                        obbligatorio
                     </mat-error>
                 </mat-form-field>
             </ng-container>

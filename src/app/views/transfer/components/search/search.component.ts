@@ -19,8 +19,8 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscription = this.searchControl.valueChanges.pipe(
-      startWith(''), 
-      debounceTime(300), 
+      startWith(''),
+      debounceTime(300),
       distinctUntilChanged()
     ).subscribe(search => {
       // If search is empty, return all elements
