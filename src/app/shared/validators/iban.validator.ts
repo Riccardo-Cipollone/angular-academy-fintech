@@ -5,7 +5,10 @@ const IBAN_REGEX = new RegExp(/^IT[ ]?\d{2}[ ]?[A-Z][ ]?\d{5}[ ]?\d{5}[ ]?[0-9A-
 
 export function ibanValidator(control: AbstractControl): ValidationErrors | null {
     const formIbanValue: string = control.value
-    return formIbanValue.match(IBAN_REGEX) ? null : { invalidIban : true };
+    if (formIbanValue) {
+        return formIbanValue.match(IBAN_REGEX) ? null : { invalidIban : true };
+    }
+    return null;
 }
 
 @Directive({

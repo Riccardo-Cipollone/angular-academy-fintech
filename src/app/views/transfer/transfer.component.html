@@ -2,35 +2,51 @@
     <mat-card-title class="title">Trasferimenti</mat-card-title>
     <mat-card-content>
         <button mat-stroked-button class="full-width" (click)="openContactList()">Lista contatti</button>
-        <form #transferForm="ngForm" (ngSubmit)="transferMoney(transferForm)" style="margin: 16px 0">
+        <form [formGroup]="transferForm" (ngSubmit)="transferMoney()" style="margin: 16px 0 0">
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Nome</mat-label>
-                <input matInput type="text" name="name" [ngModel]="selectedContact?.name" required>
+                <input matInput type="text" formControlName="name">
+                <mat-error *ngIf="transferForm.controls['name'].hasError('required')">Nome richiesto</mat-error>
             </mat-form-field>
-            
+
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Cognome</mat-label>
-                <input matInput type="text" name="surname" [ngModel]="selectedContact?.surname" required>
+                <input matInput type="text" formControlName="surname">
+                <mat-error *ngIf="transferForm.controls['surname'].hasError('required')">Cognome richiesto</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 15px">
                 <mat-label>IBAN</mat-label>
-                <input matInput type="text" name="iban" [ngModel]="selectedContact?.iban" required ibanValidator>
+                <input matInput type="text" formControlName="iban">
                 <mat-hint>Es: IT00A0000011111AA1234567890</mat-hint>
+                <mat-error *ngIf="transferForm.controls['iban'].hasError('required')">Iban richiesto</mat-error>
+                <mat-error *ngIf="transferForm.controls['iban'].hasError('invalidIban')">Iban invalido</mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Importo</mat-label>
-                <input matInput type="number" name="amount" ngModel required>
-            </mat-form-field>
+            <ng-container formGroupName="transferGroup">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Importo</mat-label>
+                    <input matInput type="text" formControlName="amount">
+                    <mat-error *ngIf="transferForm.controls['transferGroup'].get('amount')?.hasError('required')">
+                        Campo obbligatorio
+                    </mat-error>
+                    <mat-error *ngIf="transferForm.controls['transferGroup'].get('amount')?.hasError('invalidAmount')">Ammontare invalido
+                    </mat-error>
+                </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Seleziona una carta</mat-label>
-                <mat-select name="cardId" ngModel required>
-                    <mat-option [value]="null">None</mat-option>
-                    <mat-option *ngFor="let card of cards" [value]="card._id">{{ card.number }}</mat-option>
-                </mat-select>
-            </mat-form-field>
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Seleziona una carta</mat-label>
+                    <mat-select formControlName="cardId">
+                        <mat-option [value]="null">None</mat-option>
+                        <mat-option *ngFor="let card of cards" [value]="card._id">{{ card.number }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="transferForm.controls['transferGroup'].get('amount')?.hasError('required')">Campo obbligatorio
+                    </mat-error>
+                </mat-form-field>
+            </ng-container>
+            <mat-error class="balance-error" *ngIf="transferForm.get('transferGroup')?.hasError('negativeBalance')">
+                Il bilancio è in negativo di {{ transferForm.get('transferGroup')?.getError('negativeBalance') }} €.
+            </mat-error>
 
             <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="!transferForm.valid">
                 Trasferisci denaro
@@ -44,5 +60,5 @@
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Annulla</button>
         <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Conferma</button>
-      </mat-dialog-actions>
+    </mat-dialog-actions>
 </ng-template>
