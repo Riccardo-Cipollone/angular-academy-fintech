@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { CardsRoutingModule } from './cards-routing.module';
 import { CardsComponent } from './cards.component';
 import { CardFormComponent } from './components/card-form/card-form.component';
 import { CardListComponent } from './components/card-list/card-list.component';
-import { MaterialModule } from 'src/app/shared/material/material.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     CardsRoutingModule,
-    MaterialModule,
+    SharedModule,
     FormsModule,
     ReactiveFormsModule
   ]

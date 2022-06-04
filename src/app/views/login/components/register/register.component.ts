@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { checkEqualFields } from 'src/app/shared/validators/equal-fields.validator';
 
 @Component({
   selector: 'app-register',
@@ -11,16 +12,23 @@ export class RegisterComponent {
   isPasswordHidden: boolean = true;
   isRepeatPasswordHidden: boolean = true;
 
-  // TODO: Creare validatore custom per controllare se il valore delle password sono uguali
-  register(form: NgForm) {
-    const { password, repeatPassword } = form.value;
+  registerForm: FormGroup = this.fb.group({
+    email: ['', Validators.required],
+    name: ['', Validators.required],
+    surname: ['', Validators.required],
+    password: ['', [Validators.required]],
+    repeatPassword: ['', [Validators.required]],
+  }, {
+    validators: checkEqualFields('password', 'repeatPassword')
+  })
 
-    if (form.valid && password === repeatPassword ) {
-      console.log("Register form data: ", form.value);
-    }
+  constructor(private fb: FormBuilder) { }
+
+  register(): void {
+    console.log(this.registerForm.value)
   }
 
-  toggleVisibility(passwordType: string, event: Event) {
+  toggleVisibility(passwordType: string, event: Event): void {
     event.stopPropagation();
     if (passwordType === 'password')
       this.isPasswordHidden = !this.isPasswordHidden;
@@ -28,5 +36,8 @@ export class RegisterComponent {
       this.isRepeatPasswordHidden = !this.isRepeatPasswordHidden;
   }
 
+  checkIfDirty(): boolean {
+    return this.registerForm.controls['password'].dirty && this.registerForm.controls['repeatPassword'].dirty;
+  }
 
 }

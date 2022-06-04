@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from 'src/app/shared/material/material.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { AppointmentsRoutingModule } from './appointments-routing.module';
 import { AppointmentsComponent } from './appointments.component';
 import { ConfirmAppointmentComponent } from './components/confirm-appointment/confirm-appointment.component';
@@ -22,7 +22,7 @@ import { MapAppointmentComponent } from './components/map-appointment/map-appoin
     CommonModule,
     AppointmentsRoutingModule,
     ReactiveFormsModule,
-    MaterialModule
+    SharedModule
   ]
 })
 export class AppointmentsModule { }

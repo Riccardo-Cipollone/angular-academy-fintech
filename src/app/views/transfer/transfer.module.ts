@@ -25,7 +25,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     TransferRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    MaterialModule,
     SharedModule
   ]
 })

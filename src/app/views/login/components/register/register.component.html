@@ -1,51 +1,48 @@
-<form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+<form [formGroup]="registerForm" (ngSubmit)="register()">
     <!-- ? Email Field -->
     <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
-        <input type="email" name="email" [ngModel] #emailRef="ngModel" matInput placeholder="Inserisci email..."
-            required>
-        <mat-error *ngIf="!emailRef.valid">Email richiesta</mat-error>
+        <input type="email" formControlName="email" matInput placeholder="Inserisci email...">
+        <mat-error *ngIf="registerForm.controls['email'].hasError('required')">Email Richiesta</mat-error>
     </mat-form-field>
 
     <!-- ? Name Field -->
     <mat-form-field appearance="fill">
         <mat-label>Nome</mat-label>
-        <input type="text" name="name" [ngModel] #nameRef="ngModel" matInput placeholder="Inserisci nome..." required>
-        <mat-error *ngIf="!nameRef.valid">Nome richiesto</mat-error>
+        <input type="text" formControlName="name" matInput placeholder="Inserisci nome...">
+        <mat-error *ngIf="registerForm.controls['name'].hasError('required')">Nome richiesto</mat-error>
     </mat-form-field>
 
     <!-- ? Surname Field -->
     <mat-form-field appearance="fill">
         <mat-label>Cognome</mat-label>
-        <input type="text" name="surname" [ngModel] #surnameRef="ngModel" matInput placeholder="Inserisci cognome..."
-            required>
-        <mat-error *ngIf="!surnameRef.valid">Cognome richiesto</mat-error>
+        <input type="text" formControlName="surname" matInput placeholder="Inserisci cognome...">
+        <mat-error *ngIf="registerForm.controls['surname'].hasError('required')">Cognome richiesto</mat-error>
     </mat-form-field>
 
     <!-- ? Password Field -->
     <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
-        <input [type]="isPasswordHidden ? 'password' : 'text'" name="password" [ngModel] #passwordRef="ngModel" matInput
-            placeholder="Inserisci password..." required>
+        <input [type]="isPasswordHidden ? 'password' : 'text'" formControlName="password" matInput placeholder="Inserisci password...">
         <mat-icon matSuffix color="primary" style="cursor: pointer" (click)="toggleVisibility('password', $event)">
             {{ isPasswordHidden ? 'visibility_off' : 'visibility' }}
         </mat-icon>
-        <mat-error *ngIf="!passwordRef.valid">Password richiesta</mat-error>
+        <mat-error *ngIf="registerForm.controls['password'].hasError('required')">Password richiesta</mat-error>
     </mat-form-field>
 
     <!-- ? Repeat Password Field -->
     <mat-form-field appearance="fill">
         <mat-label>Ripeti la password</mat-label>
-        <input [type]="isRepeatPasswordHidden ? 'password' : 'text'" name="repeatPassword" [ngModel]
-            #repeatPasswordRef="ngModel" matInput required>
+        <input [type]="isRepeatPasswordHidden ? 'password' : 'text'" formControlName="repeatPassword" matInput>
         <mat-icon matSuffix color="primary" style="cursor: pointer" (click)="toggleVisibility('repeat', $event)">
             {{ isRepeatPasswordHidden ? 'visibility_off' : 'visibility' }}
         </mat-icon>
-        <mat-error *ngIf="!repeatPasswordRef.valid">Password richiesta</mat-error>
+        <mat-error *ngIf="registerForm.controls['repeatPassword'].hasError('required')">Password richiesta</mat-error>
     </mat-form-field>
 
+    <mat-error *ngIf="registerForm.hasError('notMatching') && checkIfDirty()">Le password non corrispondono!</mat-error>
     <div class="form-actions">
-        <button mat-raised-button color="primary" type="submit">Registrati</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">Registrati</button>
     </div>
 
     <a routerLink="/login/signin" style="display: inline-block; margin-top: 16px">

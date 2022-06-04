@@ -13,9 +13,10 @@
                 <input matInput type="text" name="surname" [ngModel]="selectedContact?.surname" required>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 15px">
                 <mat-label>IBAN</mat-label>
-                <input matInput type="text" name="iban" [ngModel]="selectedContact?.iban" required>
+                <input matInput type="text" name="iban" [ngModel]="selectedContact?.iban" required ibanValidator>
+                <mat-hint>Es: IT00A0000011111AA1234567890</mat-hint>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="full-width">
