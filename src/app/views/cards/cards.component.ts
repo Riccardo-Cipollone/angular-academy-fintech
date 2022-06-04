@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorSubject } from 'rxjs';
 import { CardsService } from 'src/app/api/cards.service';
 import { Card, CardForm } from 'src/app/models/card.model';
 import { CardFormComponent } from './components/card-form/card-form.component';
@@ -15,7 +16,7 @@ export class CardsComponent implements OnInit {
   @ViewChild('drawer', { static: true }) drawer!: MatDrawer;
   @ViewChild(CardFormComponent, { static: true }) formComponentRef!: CardFormComponent;
 
-  cards: Card[] = [];
+  cards$ = new BehaviorSubject<Card[]>([]);
 
   constructor(
     private snackbarService: MatSnackBar,
@@ -25,14 +26,14 @@ export class CardsComponent implements OnInit {
   ngOnInit(): void {
     this.cardService.getAllCards().subscribe(cards => {
       console.table(cards);
-      this.cards = cards;
+      this.cards$.next(cards)
     })
   }
 
   addCardHandler(formData: CardForm) {
     this.cardService.createNewCard(formData).subscribe({
       next: result => {
-        this.cards = [...this.cards, result];
+        this.cards$.next([...this.cards$.value, result])
         this.dispose();
         this.openSnackbarNotification("Carta aggiunta con successo! 😎");
       },
@@ -52,7 +53,7 @@ export class CardsComponent implements OnInit {
   removeCardHandler(cardId: string): void {
     this.cardService.deleteCard(cardId).subscribe({
       next: (result) => {
-        this.cards = this.cards.filter(card => card._id !== cardId);
+        this.cards$.next(this.cards$.value.filter(card => card._id !== cardId))
         this.openSnackbarNotification("Carta rimossa con successo 😎");
       },
       error: err => {

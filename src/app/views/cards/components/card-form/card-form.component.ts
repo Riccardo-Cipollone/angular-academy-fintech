@@ -26,7 +26,7 @@ export class CardFormComponent {
 
   @Output() addCard: EventEmitter<CardForm> = new EventEmitter<CardForm>()
   @Output() cancel: EventEmitter<null> = new EventEmitter<null>()
-
+  
   cardTypes: string[] = ['visa', 'mastercard'];
 
   cardForm = this.fb.group({

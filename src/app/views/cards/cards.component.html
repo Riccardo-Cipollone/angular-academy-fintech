@@ -5,7 +5,7 @@
         </app-card-form>
     </mat-drawer>
 
-    <app-card-list [cards]="cards" (addCard)="drawer.toggle()" (removeCard)="removeCardHandler($event)"
+    <app-card-list [cards]="cards$ | async" (addCard)="drawer.toggle()" (removeCard)="removeCardHandler($event)"
         (viewMovements)="viewMovementsHandler($event)">
     </app-card-list>
 

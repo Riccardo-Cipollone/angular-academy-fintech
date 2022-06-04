@@ -15,7 +15,7 @@ export class DashboardComponent {
     { name: 'Movimenti', icon: 'receipt_long', link: '/dashboard/movements' },
     { name: 'Trasferisci', icon: 'paid', link: '/dashboard/transfers' },
     { name: 'Appuntamenti', icon: 'event', link: '/dashboard/appointments' },
-    { name: 'Tasse', icon: 'summarize', link: '/dashboard/home' },
+    { name: 'Tasse', icon: 'summarize', link: '/dashboard/taxes' },
   ];
   selectedRoute: MenuRoute | null = null;
 

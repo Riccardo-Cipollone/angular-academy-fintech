@@ -8,7 +8,7 @@ import { Card } from 'src/app/models/card.model';
 })
 export class CardListComponent {
 
-  @Input() cards: Card[] = [];
+  @Input() cards: Card[] | null = null;
   @Output() removeCard: EventEmitter<string> = new EventEmitter<string>();
   @Output() viewMovements: EventEmitter<string> = new EventEmitter<string>();
   @Output() addCard: EventEmitter<null> = new EventEmitter<null>();
