@@ -3,8 +3,9 @@ import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { filter } from 'rxjs';
-import { DayWithSlot, DayWithSlots, Location } from 'src/app/models/appointment.model';
+import { filter, switchMap } from 'rxjs';
+import { AppointmentsService } from 'src/app/api/appointments.service';
+import { DayWithSlot, DayWithSlots, Location, SlotNumber } from 'src/app/models/appointment.model';
 import { ConfirmAppointmentComponent } from '../confirm-appointment/confirm-appointment.component';
 
 @Component({
@@ -18,16 +19,16 @@ export class CreateAppointmentComponent implements OnChanges {
   @Input() selectedLocation: Location | null = null;
 
   appointmentDate: FormControl = new FormControl('');
-  availableSlots: DayWithSlots[] = mock_availableSlots;
+  availableSlots: DayWithSlots[] = [];
   selectedAppointment: DayWithSlots | null = null;
-  selectedSlot: DayWithSlot | null = null;
 
   coordinates!: [number, number];
-  location!: string;
+  locationName!: string;
 
   constructor(
     private dialog: MatDialog,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private appointmentSrv: AppointmentsService
   ) { }
 
 
@@ -38,7 +39,15 @@ export class CreateAppointmentComponent implements OnChanges {
 
     if (this.selectedLocation) {
       this.coordinates = this.selectedLocation.coords;
-      this.location = this.selectedLocation.address;
+      this.locationName = this.selectedLocation.address;
+      this.appointmentSrv.getLocationSlots(this.selectedLocation._id).subscribe({
+        next: result => {
+          this.availableSlots = result;
+        },
+        error: err => {
+          console.error(err);
+        }
+      })
     }
   }
 
@@ -47,24 +56,36 @@ export class CreateAppointmentComponent implements OnChanges {
     this.selectedAppointment = { day: this.availableSlots[index].day, slots: this.availableSlots[index].slots }
   }
 
-  confirmAppointment(selectedSlot: number) {
-    console.log(selectedSlot);
+  confirmAppointment(selectedSlot: SlotNumber) {
+    const newSlot: DayWithSlot = { day: this.appointmentDate.value, slot: selectedSlot };
     const dialogRef = this.dialog.open(ConfirmAppointmentComponent, {
       width: '500px',
       data: {
-        date: this.appointmentDate.value,
-        slot: selectedSlot
+        day: newSlot.day,
+        slot: newSlot.slot
       }
     });
 
-    dialogRef.afterClosed().pipe(filter(res => res)).subscribe(result => {
-      this.snackbar.open("Appuntamento confermato!", "", {
-        duration: 3000,
-        panelClass: 'custom-snackbar'
-      });
-      this.clear();
-      this.closeDrawer.emit();
-    })
+    dialogRef.afterClosed()
+      .pipe(
+        filter(res => res),
+        switchMap(() => {
+          return this.appointmentSrv.confirmAppointment(newSlot);
+        })
+      )
+      .subscribe({
+        next: result => {
+          this.openSnackbarNotification("Appuntamento confermato!")
+          this.clear();
+          this.closeDrawer.emit();
+        },
+        error: err => {
+          console.error(err);
+          this.openSnackbarNotification("Qualcosa è andato storto 😢");
+          this.clear();
+          this.closeDrawer.emit();
+        }
+      })
   }
 
   dateFilter = (d: Date | null): boolean => {
@@ -74,155 +95,16 @@ export class CreateAppointmentComponent implements OnChanges {
     return dates.includes(day);
   }
 
+  openSnackbarNotification(text: string) {
+    this.snackbar.open(text, "", {
+      duration: 3000,
+      panelClass: 'custom-snackbar'
+    });
+  }
+
   clear() {
     this.appointmentDate.reset();
     this.selectedAppointment = null;
-    this.selectedSlot = null;
   }
 
 }
-
-const mock_availableSlots: DayWithSlots[] = [
-  {
-    "day": "6/25/2022",
-    "slots": [
-      9,
-      11
-    ]
-  },
-  {
-    "day": "6/29/2022",
-    "slots": [
-      12,
-      14,
-      15,
-      18
-    ]
-  },
-  {
-    "day": "6/8/2022",
-    "slots": [
-      10,
-      13
-    ]
-  },
-  {
-    "day": "6/18/2022",
-    "slots": [
-      11,
-      12,
-      13,
-      14,
-      18
-    ]
-  },
-  {
-    "day": "6/26/2022",
-    "slots": [
-      9,
-      13,
-      17
-    ]
-  },
-  {
-    "day": "6/11/2022",
-    "slots": [
-      13,
-      14,
-      17,
-      18
-    ]
-  },
-  {
-    "day": "6/9/2022",
-    "slots": [
-      9,
-      13,
-      14
-    ]
-  },
-  {
-    "day": "6/22/2022",
-    "slots": [
-      11,
-      12,
-      15,
-      16,
-      17
-    ]
-  },
-  {
-    "day": "6/12/2022",
-    "slots": [
-      11,
-      17
-    ]
-  },
-  {
-    "day": "6/21/2022",
-    "slots": [
-      9,
-      10,
-      12,
-      14,
-      17
-    ]
-  },
-  {
-    "day": "6/17/2022",
-    "slots": [
-      10,
-      15,
-      16
-    ]
-  },
-  {
-    "day": "6/23/2022",
-    "slots": [
-      9,
-      11,
-      14,
-      17
-    ]
-  },
-  {
-    "day": "6/2/2022",
-    "slots": [
-      10,
-      13,
-      17
-    ]
-  },
-  {
-    "day": "6/15/2022",
-    "slots": [
-      10,
-      13,
-      16
-    ]
-  },
-  {
-    "day": "6/4/2022",
-    "slots": [
-      14,
-      18
-    ]
-  },
-  {
-    "day": "6/28/2022",
-    "slots": [
-      9,
-      11,
-      13,
-      15
-    ]
-  },
-  {
-    "day": "6/7/2022",
-    "slots": [
-      12,
-      15,
-      18
-    ]
-  }
-]

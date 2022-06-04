@@ -45,7 +45,7 @@ export class CardsService {
    * @param offset query param
    * @returns { MovementApiResponse } Object with a list of Movements and the amount
    */
-  getCardMovements(cardId: string, limit: number, offset: number): Observable<MovementApiResponse> {
+  getCardMovements(cardId: string, limit: number = 5, offset: number = 0): Observable<MovementApiResponse> {
     return this.http.get<MovementApiResponse>(`${environment.apiUrl}/cards/${cardId}/movements?limit=${limit}&offset=${offset}`);
   }
 
