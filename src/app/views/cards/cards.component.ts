@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { CardsService } from 'src/app/api/cards.service';
 import { Card, CardForm } from 'src/app/models/card.model';
@@ -20,7 +21,8 @@ export class CardsComponent implements OnInit {
 
   constructor(
     private snackbarService: MatSnackBar,
-    private cardService: CardsService
+    private cardService: CardsService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -46,8 +48,8 @@ export class CardsComponent implements OnInit {
   }
 
   viewMovementsHandler(cardId: string) {
-    // TODO: Sviluppare logica vista movimenti
-    console.log("Card ID in entrata: ", cardId);
+    console.log("Card ID: ", cardId);
+    this.router.navigate(['/dashboard/movements/', cardId])
   }
 
   removeCardHandler(cardId: string): void {

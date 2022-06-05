@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
 import { CardsService } from 'src/app/api/cards.service';
 import { Card } from 'src/app/models/card.model';
@@ -15,20 +16,22 @@ export class MovementsComponent implements OnInit {
 
   cards$ = new BehaviorSubject<Card[]>([]);
   movements$ = new BehaviorSubject<Movement[]>([]);
-  activeCardId$ = new BehaviorSubject<string>('');
+  selectedCardId$ = new BehaviorSubject<string>('');
   total$ = new BehaviorSubject<number>(0);
-  selectedCard$ = combineLatest([this.cards$, this.activeCardId$]).pipe(
+
+  selectedCard$ = combineLatest([this.cards$, this.selectedCardId$]).pipe(
     map(([cardList, cardId]) => {
       const selectedCard: Card | undefined = cardList.find(card => card._id === cardId);
       return selectedCard;
     })
   );
-  
+
   max: number = 5;
 
   constructor(
     private snackbar: MatSnackBar,
-    private cardSrv: CardsService
+    private cardSrv: CardsService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +41,12 @@ export class MovementsComponent implements OnInit {
         console.error(err);
       }
     })
+
+    this.route.params.subscribe(params => {
+      if (params['cardId']) {
+        this.selectCard(params['cardId'])
+      };
+    })
   }
 
   selectCard(cardId: string): void {
@@ -45,7 +54,7 @@ export class MovementsComponent implements OnInit {
       this.dispose();
       return;
     }
-    this.activeCardId$.next(cardId);
+    this.selectedCardId$.next(cardId);
     this.max = 5;
 
     this.cardSrv.getCardMovements(cardId, this.max).subscribe({
@@ -63,8 +72,8 @@ export class MovementsComponent implements OnInit {
     }
 
     this.max = this.max + 5;
-    if (this.activeCardId$.getValue()) {
-      this.cardSrv.getCardMovements(this.activeCardId$.getValue(), this.max).subscribe({
+    if (this.selectedCardId$.getValue()) {
+      this.cardSrv.getCardMovements(this.selectedCardId$.getValue(), this.max).subscribe({
         next: ({ data, total }) => {
           this.movements$.next(data);
           this.total$.next(total);
@@ -74,7 +83,7 @@ export class MovementsComponent implements OnInit {
   }
 
   private dispose(): void {
-    this.activeCardId$.next('');
+    this.selectedCardId$.next('');
     this.movements$.next([]);
     this.total$.next(0);
   }
