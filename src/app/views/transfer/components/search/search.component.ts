@@ -11,7 +11,7 @@ import { Contact } from 'src/app/models/contact.model';
 export class SearchComponent implements OnInit {
 
   // TODO: Possibilita' di generalizzare il componente usando un array di elementi generici
-  @Input() contacts: Contact[] = [];
+  @Input() contacts: Contact[] | null = [];
   @Output() searchText = new EventEmitter<string>();
 
   searchControl: FormControl = new FormControl('');

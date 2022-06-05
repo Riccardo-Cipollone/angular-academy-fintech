@@ -6,7 +6,7 @@
         </div>
     </mat-card-title>
     <mat-card-content>
-        <form [formGroup]="cardForm" (ngSubmit)="addCard.emit(cardForm.value)" class="form-layout">
+        <form [formGroup]="cardForm" (ngSubmit)="addNewCard()" class="form-layout">
             <!-- ? Card Type Field -->
             <mat-form-field appearance="fill">
                 <mat-label>Tipo di carta</mat-label>

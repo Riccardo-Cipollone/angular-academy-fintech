@@ -39,6 +39,11 @@ export class CardFormComponent {
 
   constructor(private fb: FormBuilder) { }
 
+  addNewCard() {
+    this.addCard.emit(this.cardForm.value);
+    this.cardForm.reset();
+  }
+
   cleanup() {
     this.cardForm.reset();
   }

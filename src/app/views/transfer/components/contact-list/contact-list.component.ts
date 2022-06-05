@@ -9,7 +9,7 @@ import { Contact } from 'src/app/models/contact.model';
 })
 export class ContactListComponent {
 
-  @Input() contactList: Contact[] = [];
+  @Input() contactList: Contact[] | null = [];
   @Input() searchText: string = "";
   @Output() selectContact = new EventEmitter<string>();
   @Output() editContact = new EventEmitter<string>();

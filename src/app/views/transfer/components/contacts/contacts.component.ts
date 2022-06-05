@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BehaviorSubject, combineLatest, map } from 'rxjs';
 import { ContactsService } from 'src/app/api/contacts.service';
-import { Contact } from 'src/app/models/contact.model';
+import { Contact, ContactState } from 'src/app/models/contact.model';
 
 @Component({
   selector: 'app-contacts',
@@ -10,10 +11,14 @@ import { Contact } from 'src/app/models/contact.model';
 })
 export class ContactsComponent implements OnInit {
 
-  contactStatus: 'list' | 'form' = 'list';
-  contactList: Contact[] = [];
-  selectedContact: Contact | null = null;
+  status$ = new BehaviorSubject<ContactState>({ type: 'list' });
+  contacts$ = new BehaviorSubject<Contact[]>([]);
+  // selectedContact: Contact | null = null;
   currentSearchText: string = "";
+
+  selectedContact$ = combineLatest([this.status$, this.contacts$]).pipe(
+    map(([status, contacts]) => contacts.find(contact => contact._id === status.id) || null )
+  )
 
   constructor(
     private contactSrv: ContactsService,
@@ -25,7 +30,7 @@ export class ContactsComponent implements OnInit {
     this.contactSrv.getAllContacts().subscribe({
       next: contacts => {
         console.table(contacts);
-        this.contactList = contacts;
+        this.contacts$.next(contacts);
       }
     })
   }
@@ -35,54 +40,57 @@ export class ContactsComponent implements OnInit {
   }
 
   saveHandler(contact: Partial<Contact>): void {
-    this.contactStatus = 'list';
-    if (this.selectedContact) {
-      // ? Modalita' Edit
-      this.contactSrv.editContact(contact).subscribe({
-        next: result => {
-          this.contactList = this.contactList.map(item => {
-            return item._id === result._id ? result : item;
-          })
-          this.selectedContact = null;
-        }
-      })
+    if (this.status$.getValue().type === 'edit') {
+      this.saveContact(contact);
     } else {
-      // ? Modalita' New
-      this.contactSrv.createNewContact(contact).subscribe({
-        next: result => {
-          this.contactList = [...this.contactList, result];
-        }
-      })
+      this.addContact(contact);
     }
+    this.status$.next({ type: 'list' });
   }
 
   selectHandler(contactId: string): void {
-    const foundContact = this.contactList.find(item => item._id === contactId);
+    const foundContact = this.contacts$.getValue().find(item => item._id === contactId);
     this.dialogRef.close(foundContact);
   }
 
   editHandler(contactId: string): void {
-    this.contactStatus = 'form';
-    const index = this.contactList.findIndex(item => item._id === contactId);
-    this.selectedContact = this.contactList[index];
+    this.status$.next({ type: 'edit', id: contactId });
+    const index = this.contacts$.getValue().findIndex(item => item._id === contactId);
   }
 
   deleteHandler(contactId: string): void {
     this.contactSrv.deleteContact(contactId).subscribe({
-      next: item => {
-        this.contactList = this.contactList.filter(item => item._id !== contactId);
+      next: result => {
+        const filteredArray = this.contacts$.getValue().filter(contact => contact._id !== contactId);
+        this.contacts$.next(filteredArray);
+      }
+    })
+  }
+
+  private saveContact(contact: Partial<Contact>): void {
+    this.contactSrv.editContact(contact).subscribe({
+      next: result => {
+        this.contacts$.next(this.contacts$.getValue().map(contact => {
+          return contact._id === result._id ? result : contact;
+        }))
+      }
+    })
+  }
+
+  private addContact(contact: Partial<Contact>): void {
+    this.contactSrv.createNewContact(contact).subscribe({
+      next: result => {
+        this.contacts$.next([...this.contacts$.getValue(), result]);
       }
     })
   }
 
   newContact(): void {
-    this.contactStatus = 'form';
-    this.selectedContact = null;
+    this.status$.next({ type: 'new' });
   }
 
   goBackToList(): void {
-    this.contactStatus = 'list';
-    this.selectedContact = null;
+    this.status$.next({ type: 'list' });
   }
 
 }

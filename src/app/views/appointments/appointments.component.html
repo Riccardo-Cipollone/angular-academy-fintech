@@ -1,10 +1,10 @@
 <mat-drawer-container class="drawer-container">
     <mat-drawer #drawer mode="side" position="end">
-        <app-create-appointment [selectedLocation]="selectedLocation" (closeDrawer)="closeDrawerHandler()">
+        <app-create-appointment [selectedLocation]="selectedLocation$ | async" (closeDrawer)="closeDrawerHandler()">
         </app-create-appointment>
     </mat-drawer>
     <h4 class="title">Sedi</h4>
 
-    <app-location-list [locationList]="locationList" (selectLocation)="selectLocationHandler($event)">
+    <app-location-list [locations]="locations$ | async" (selectLocation)="selectLocationHandler($event)">
     </app-location-list>
 </mat-drawer-container>

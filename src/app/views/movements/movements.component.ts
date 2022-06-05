@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorSubject, combineLatest, map } from 'rxjs';
 import { CardsService } from 'src/app/api/cards.service';
 import { Card } from 'src/app/models/card.model';
 import { Movement } from 'src/app/models/movement.model';
@@ -12,10 +13,17 @@ import { Movement } from 'src/app/models/movement.model';
 })
 export class MovementsComponent implements OnInit {
 
-  cards: Card[] = [];
-  movements: Movement[] = [];
-  activeCard: Card | null = null;
-  total: number = 0;
+  cards$ = new BehaviorSubject<Card[]>([]);
+  movements$ = new BehaviorSubject<Movement[]>([]);
+  activeCardId$ = new BehaviorSubject<string>('');
+  total$ = new BehaviorSubject<number>(0);
+  selectedCard$ = combineLatest([this.cards$, this.activeCardId$]).pipe(
+    map(([cardList, cardId]) => {
+      const selectedCard: Card | undefined = cardList.find(card => card._id === cardId);
+      return selectedCard;
+    })
+  );
+  
   max: number = 5;
 
   constructor(
@@ -25,7 +33,10 @@ export class MovementsComponent implements OnInit {
 
   ngOnInit(): void {
     this.cardSrv.getAllCards().subscribe({
-      next: cards => this.cards = cards
+      next: cards => this.cards$.next(cards),
+      error: err => {
+        console.error(err);
+      }
     })
   }
 
@@ -34,39 +45,37 @@ export class MovementsComponent implements OnInit {
       this.dispose();
       return;
     }
-
-    const selectedCard: Card | undefined = this.cards.find(card => card._id === cardId);
-    if (selectedCard) this.activeCard = {...selectedCard};
+    this.activeCardId$.next(cardId);
     this.max = 5;
 
     this.cardSrv.getCardMovements(cardId, this.max).subscribe({
       next: ({ data, total }) => {
-        this.movements = data;
-        this.total = total;
+        this.movements$.next(data);
+        this.total$.next(total);
       }
     })
   }
 
   loadMoreMovements(): void {
-    if (this.max >= this.total) {
+    if (this.max >= this.total$.getValue()) {
       this.snackbar.open("The max has been reached!", "Close", { panelClass: 'custom-snackbar', duration: 3000 });
       return;
     }
-    this.max = this.max + 5;
 
-    if (this.activeCard) {
-      this.cardSrv.getCardMovements(this.activeCard?._id, this.max).subscribe({
+    this.max = this.max + 5;
+    if (this.activeCardId$.getValue()) {
+      this.cardSrv.getCardMovements(this.activeCardId$.getValue(), this.max).subscribe({
         next: ({ data, total }) => {
-          this.movements = data;
-          this.total = total;
+          this.movements$.next(data);
+          this.total$.next(total);
         }
       })
     }
   }
 
   private dispose(): void {
-    this.activeCard = null;
-    this.movements = [];
-    this.total = 0;
+    this.activeCardId$.next('');
+    this.movements$.next([]);
+    this.total$.next(0);
   }
 }

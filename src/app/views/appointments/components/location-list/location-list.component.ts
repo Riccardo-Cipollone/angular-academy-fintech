@@ -9,7 +9,7 @@ import { Location } from 'src/app/models/appointment.model';
 })
 export class LocationListComponent {
 
-  @Input() locationList: Location[] = [];
-  @Output() selectLocation: EventEmitter<Location> = new EventEmitter<Location>();
+  @Input() locations: Location[] | null = [];
+  @Output() selectLocation: EventEmitter<string> = new EventEmitter<string>();
 
 }

@@ -8,7 +8,7 @@
                 <div class="card-info">
                     <mat-icon>credit_card</mat-icon>
                     <div>
-                        <span>{{ card.number }}</span>
+                        <span>{{ card.number | formatCard }}</span>
                         <span>€{{ card.amount }} - {{ card.type | titlecase }}</span>
                     </div>
                 </div>

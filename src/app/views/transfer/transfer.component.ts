@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { filter, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, switchMap } from 'rxjs';
 import { CardsService } from 'src/app/api/cards.service';
 import { TransferService } from 'src/app/api/transfer.service';
 import { Card } from 'src/app/models/card.model';
@@ -22,7 +22,7 @@ export class TransferComponent implements OnInit {
 
   @ViewChild('confirmTransfer', { static: true }) templateRef!: TemplateRef<any>;
 
-  cards: Card[] = [];
+  cards$ = new BehaviorSubject<Card[]>([]);
   transferForm = this.fb.group({
     name: [null, Validators.required],
     surname: [null, Validators.required],
@@ -46,7 +46,7 @@ export class TransferComponent implements OnInit {
     this.cardSrv.getAllCards().subscribe({
       next: cards => {
         console.table(cards, ['_id', 'number', 'type']);
-        this.cards = cards;
+        this.cards$.next(cards);
       }
     });
   }

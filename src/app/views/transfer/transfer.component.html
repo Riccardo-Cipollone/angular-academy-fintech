@@ -39,7 +39,7 @@
                     <mat-label>Seleziona una carta</mat-label>
                     <mat-select formControlName="cardId">
                         <mat-option [value]="null">None</mat-option>
-                        <mat-option *ngFor="let card of cards" [value]="card._id">{{ card.number }}</mat-option>
+                        <mat-option *ngFor="let card of cards$ | async" [value]="card._id">{{ card.number | formatCard }}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="transferForm.controls['transferGroup'].get('amount')?.hasError('required')">Campo
                         obbligatorio

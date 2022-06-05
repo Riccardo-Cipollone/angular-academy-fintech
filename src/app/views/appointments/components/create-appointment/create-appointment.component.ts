@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { filter, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, switchMap } from 'rxjs';
 import { AppointmentsService } from 'src/app/api/appointments.service';
 import { DayWithSlot, DayWithSlots, Location, SlotNumber } from 'src/app/models/appointment.model';
 import { ConfirmAppointmentComponent } from '../confirm-appointment/confirm-appointment.component';
@@ -19,7 +19,7 @@ export class CreateAppointmentComponent implements OnChanges {
   @Input() selectedLocation: Location | null = null;
 
   appointmentDate: FormControl = new FormControl('');
-  availableSlots: DayWithSlots[] = [];
+  availableSlots$ = new BehaviorSubject<DayWithSlots[]>([])
   selectedAppointment: DayWithSlots | null = null;
 
   coordinates!: [number, number];
@@ -31,7 +31,6 @@ export class CreateAppointmentComponent implements OnChanges {
     private appointmentSrv: AppointmentsService
   ) { }
 
-
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes['selectedLocation'].firstChange) {
       this.clear();
@@ -42,7 +41,7 @@ export class CreateAppointmentComponent implements OnChanges {
       this.locationName = this.selectedLocation.address;
       this.appointmentSrv.getLocationSlots(this.selectedLocation._id).subscribe({
         next: result => {
-          this.availableSlots = result;
+          this.availableSlots$.next(result);
         },
         error: err => {
           console.error(err);
@@ -52,11 +51,12 @@ export class CreateAppointmentComponent implements OnChanges {
   }
 
   setAppointmentDate(event: MatDatepickerInputEvent<any>): void {
-    const index = this.availableSlots.findIndex(element => new Date(element.day).getTime() === event.value.getTime());
-    this.selectedAppointment = { day: this.availableSlots[index].day, slots: this.availableSlots[index].slots }
+    const availableSlots = this.availableSlots$.getValue();
+    const index = availableSlots.findIndex(element => new Date(element.day).getTime() === event.value.getTime());
+    this.selectedAppointment = { day: availableSlots[index].day, slots: availableSlots[index].slots }
   }
 
-  confirmAppointment(selectedSlot: SlotNumber) {
+  confirmAppointment(selectedSlot: SlotNumber): void {
     const newSlot: DayWithSlot = { day: this.appointmentDate.value, slot: selectedSlot };
     const dialogRef = this.dialog.open(ConfirmAppointmentComponent, {
       width: '500px',
@@ -89,7 +89,7 @@ export class CreateAppointmentComponent implements OnChanges {
   }
 
   dateFilter = (d: Date | null): boolean => {
-    const dates: number[] = this.availableSlots.map(slot => new Date(slot.day).getTime());
+    const dates: number[] = this.availableSlots$.getValue().map(slot => new Date(slot.day).getTime());
     const day: number = (d || new Date()).getTime();
 
     return dates.includes(day);

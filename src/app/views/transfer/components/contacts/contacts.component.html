@@ -1,9 +1,9 @@
 <div mat-dialog-content>
-    <ng-container *ngIf="contactStatus === 'list'">
-        <app-search [contacts]="contactList" (searchText)="searchTextHandler($event)"></app-search>
+    <ng-container *ngIf="(status$ | async)?.type === 'list'">
+        <app-search [contacts]="contacts$ | async" (searchText)="searchTextHandler($event)"></app-search>
         <app-contact-list 
             [searchText]="currentSearchText"
-            [contactList]="contactList" 
+            [contactList]="contacts$ | async" 
             (selectContact)="selectHandler($event)"
             (editContact)="editHandler($event)"
             (deleteContact)="deleteHandler($event)"
@@ -11,8 +11,8 @@
         </app-contact-list>
         <button mat-raised-button color="primary" style="width: 100%" (click)="newContact()">Nuovo contatto</button>
     </ng-container>
-    <ng-container *ngIf="contactStatus === 'form'">
+    <ng-container *ngIf="(status$ | async)?.type === 'new' || (status$ | async)?.type === 'edit'">
         <button mat-stroked-button style="margin-bottom: 20px; width: 100%" (click)="goBackToList()">Indietro</button>
-        <app-contact-form [initialContact]="selectedContact" (saveContact)="saveHandler($event)"></app-contact-form>
+        <app-contact-form [initialContact]="selectedContact$ | async" (saveContact)="saveHandler($event)"></app-contact-form>
     </ng-container>
 </div>
