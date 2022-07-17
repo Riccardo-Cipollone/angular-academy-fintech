@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
@@ -42,6 +41,7 @@ export class MovementsComponent implements OnInit {
       }
     })
 
+    // TODO: Da rimuovere la doppia subscribe!
     this.route.params.subscribe(params => {
       if (params['cardId']) {
         this.selectCard(params['cardId'])

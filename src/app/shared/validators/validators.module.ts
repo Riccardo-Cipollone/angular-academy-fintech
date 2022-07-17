@@ -11,7 +11,7 @@ const validators = [
   EqualFieldsValidator,
   AmountValidatorDirective,
   CodiceFiscaleValidatorDirective,
-  TransferValidatorDirective
+  TransferValidatorDirective,
 ];
 
 @NgModule({

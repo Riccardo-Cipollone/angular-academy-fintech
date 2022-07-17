@@ -1,0 +1,185 @@
+<form [formGroup]="taxesForm" (ngSubmit)="onSubmit()" #form="ngForm">
+    <!-- ? Sezione Descrizione del contribuente -->
+    <section formGroupName="contribuente">
+        <h2>Contribuente</h2>
+        <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+            <mat-label>Codice Fiscale</mat-label>
+            <input matInput type="text" formControlName="codiceFiscale">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+            <mat-label>Cognome</mat-label>
+            <input matInput type="text" formControlName="cognome">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+            <mat-label>Nome</mat-label>
+            <input matInput type="text" formControlName="nome">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+            <mat-label>Data di nascita</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dataDiNascita">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+            <mat-label>Sesso</mat-label>
+            <mat-select formControlName="sesso">
+                <mat-option value="M">Maschio</mat-option>
+                <mat-option value="F">Femmina</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+            <mat-label>Provincia di nascita</mat-label>
+            <input matInput type="text" formControlName="provinciaDiNascita">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+            <mat-label>Comune di nascita</mat-label>
+            <input matInput type="text" formControlName="comuneDiNascita">
+        </mat-form-field>
+    </section>
+    <!-- ? Erario -->
+    <section>
+        <h2>Erario</h2>
+        <table class="full-width" formArrayName="erario">
+            <tr *ngFor="let e of erario.controls; index as i" [formGroupName]="i">
+                <td>
+                    <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+                        <mat-label>Codice Tributo</mat-label>
+                        <input matInput type="text" formControlName="codiceTributo">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+                        <mat-label>Anno di riferimento</mat-label>
+                        <input matInput type="number" formControlName="anno">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+                        <mat-label>Importo a debito</mat-label>
+                        <input matInput type="number" formControlName="debito">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+                        <mat-label>Importo a credito</mat-label>
+                        <input matInput type="number" formControlName="credito">
+                    </mat-form-field>
+                </td>
+                <td style="flex: .2">
+                    <button type="button" mat-mini-fab color="warn" (click)="removeRow('erario', i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </tr>
+            <ng-container *ngIf="erario.length">
+                <ng-container *ngIf="totaliErario$ | async as totaliErario">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <h3>Totale a debito: €{{ totaliErario.debito }}</h3>
+                        </td>
+                        <td>
+                            <h3>Totale a credito: €{{ totaliErario.credito }}</h3>
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+        </table>
+        <button type="button" mat-mini-fab color="primary" (click)="createErario()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </section>
+    <!-- ? Sezione INPS -->
+    <section>
+        <h2>INPS</h2>
+        <table class="full-width" formArrayName="inps">
+            <tr *ngFor="let e of inps.controls; index as i" [formGroupName]="i">
+                <td>
+                    <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+                        <mat-label>Codice Sede</mat-label>
+                        <input matInput type="text" formControlName="codiceSede">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+                        <mat-label>Causale Contributo</mat-label>
+                        <input matInput type="text" formControlName="causaleContributo">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+                        <mat-label>Codice INPS</mat-label>
+                        <input matInput type="text" formControlName="codiceInps">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+                        <mat-label>Da</mat-label>
+                        <input matInput [matDatepicker]="pickerDa" formControlName="da"
+                            [errorStateMatcher]="inpsMatcher">
+                        <mat-datepicker-toggle matSuffix [for]="pickerDa"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerDa></mat-datepicker>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+                        <mat-label>A</mat-label>
+                        <input matInput [matDatepicker]="pickerA" formControlName="a" [errorStateMatcher]="inpsMatcher">
+                        <mat-datepicker-toggle matSuffix [for]="pickerA"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerA></mat-datepicker>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+                        <mat-label>Debito</mat-label>
+                        <input matInput type="number" formControlName="debito">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="full-width" appearance="fill" floatLabel="always">
+                        <mat-label>Credito</mat-label>
+                        <input matInput type="number" formControlName="credito">
+                    </mat-form-field>
+                </td>
+                <td style="flex: .2">
+                    <button type="button" mat-mini-fab color="warn" (click)="removeRow('inps', i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </tr>
+            <ng-container *ngIf="inps.length">
+                <ng-container *ngIf="totaliInps$ | async as totaliInps">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <h3>Totale a debito: €{{ totaliInps.debito }}</h3>
+                        </td>
+                        <td>
+                            <h3>Totale a credito: €{{ totaliInps.credito }}</h3>
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+        </table>
+        <button type="button" mat-mini-fab color="primary" (click)="createInps()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </section>
+    <!-- ? Sezione Totale -->
+    <section>
+        <h1>Saldo totale: €{{ totale$ | async }}</h1>
+        <button type="submit" mat-flat-button color="primary" class="full-width"
+            [disabled]="!taxesForm.valid">Invia</button>
+    </section>
+</form>

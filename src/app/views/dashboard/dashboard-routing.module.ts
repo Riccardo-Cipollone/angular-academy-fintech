@@ -11,7 +11,7 @@ const routes: Routes = [
         { path: 'movements/:cardId', loadChildren: () => import('../movements/movements.module').then(m => m.MovementsModule)},
         { path: 'transfers', loadChildren: () => import('../transfer/transfer.module').then(m => m.TransferModule)},
         { path: 'appointments', loadChildren: () => import('../appointments/appointments.module').then(m => m.AppointmentsModule)},
-        // { path: 'taxes', loadChildren: () => import('../taxes/taxes.module').then(m => m.TaxesModule)},
+        { path: 'taxes', loadChildren: () => import('../taxes/taxes.module').then(m => m.TaxesModule)},
     ]},
 ];
 

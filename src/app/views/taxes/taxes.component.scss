@@ -1,0 +1,26 @@
+.full-width {
+    width: 100%;
+}
+
+tr {
+    display: flex;
+}
+
+td {
+    flex: 1;
+}
+
+tr td:first-child {
+    flex: 0.5;
+}
+
+section {
+    background: rgba(0, 0, 0, 0.02);
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 6px;
+}
+
+mat-form-field {
+    height: 100%;
+}
