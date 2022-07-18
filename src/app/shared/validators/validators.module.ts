@@ -4,6 +4,7 @@ import { AmountValidatorDirective } from './amount.validator';
 import { CodiceFiscaleValidatorDirective } from './codice-fiscale.validator';
 import { EqualFieldsValidator } from './equal-fields.validator';
 import { IbanValidatorDirective } from './iban.validator';
+import { IpnsValidatorDirective } from './inps.validator';
 import { TransferValidatorDirective } from './transfer.validator';
 
 const validators = [
@@ -12,6 +13,7 @@ const validators = [
   AmountValidatorDirective,
   CodiceFiscaleValidatorDirective,
   TransferValidatorDirective,
+  IpnsValidatorDirective
 ];
 
 @NgModule({

@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, map, startWith } from 'rxjs';
 import { TaxesService } from 'src/app/api/taxes.service';
 import { validateCodiceFiscale } from 'src/app/shared/validators/codice-fiscale.validator';
-import { InpsValidator } from 'src/app/shared/validators/inps.validator';
+import { inpsValidator } from 'src/app/shared/validators/inps.validator';
 
 @Component({
   selector: 'app-taxes',
@@ -101,7 +101,7 @@ export class TaxesComponent {
       debito: this.fb.control('', Validators.required),
       credito: this.fb.control('', Validators.required)
     }, {
-      validators: [InpsValidator]
+      validators: [inpsValidator]
     }))
   }
 

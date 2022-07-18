@@ -6,7 +6,7 @@ const IBAN_REGEX = new RegExp(/^IT[ ]?\d{2}[ ]?[A-Z][ ]?\d{5}[ ]?\d{5}[ ]?[0-9A-
 export function ibanValidator(control: AbstractControl): ValidationErrors | null {
     const formIbanValue: string = control.value
     if (formIbanValue) {
-        return formIbanValue.match(IBAN_REGEX) ? null : { invalidIban : true };
+        return formIbanValue.match(IBAN_REGEX) ? null : { invalidIban: true };
     }
     return null;
 }
@@ -20,7 +20,7 @@ export function ibanValidator(control: AbstractControl): ValidationErrors | null
     }]
 })
 export class IbanValidatorDirective implements Validators {
-    
+
     validate(control: AbstractControl): ValidationErrors | null {
         return ibanValidator(control);
     }
