@@ -8,6 +8,13 @@
         {{ route.name }}
       </a>
     </mat-nav-list>
+    <mat-list>
+      <mat-list-item>
+        <mat-icon mat-list-icon>person</mat-icon>
+        <div mat-line>{{ username }}</div>
+        <p mat-line style="cursor: pointer" (click)="logout()">Logout</p>
+      </mat-list-item>
+    </mat-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">

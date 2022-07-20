@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { checkEqualFields } from 'src/app/shared/validators/equal-fields.validator';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/api/auth.service';
+import { equalFieldsValidator } from 'src/app/shared/validators/equal-fields.validator';
 
 @Component({
   selector: 'app-register',
@@ -19,13 +21,23 @@ export class RegisterComponent {
     password: ['', [Validators.required]],
     repeatPassword: ['', [Validators.required]],
   }, {
-    validators: checkEqualFields('password', 'repeatPassword')
+    validators: equalFieldsValidator('password', 'repeatPassword')
   })
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   register(): void {
-    console.log(this.registerForm.value)
+    console.log("Register form value: ", this.registerForm.value);
+    const { repeatPassword, ...form } = this.registerForm.value;
+    if (!this.registerForm.valid) return;
+
+    this.authService.register(form).subscribe(() => {
+      this.router.navigateByUrl('/login/signin');
+    })
   }
 
   toggleVisibility(passwordType: string, event: Event): void {

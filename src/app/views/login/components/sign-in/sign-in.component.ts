@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/api/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -17,14 +19,22 @@ export class SignInComponent {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) { }
 
   login() {
-    if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-      this.router.navigateByUrl('/dashboard')
-    }
+    const credentials = this.loginForm.value;
+    console.log("Credentials: ", credentials);
+    this.authService.login(credentials.email, credentials.password).subscribe(success => {
+      if (success) {
+        this.router.navigateByUrl('');
+        // this.router.navigateByUrl('/dashboard');
+      } else {
+        this.snackBar.open('Credenziali non corrette!');
+      }
+    })
   }
 
   toggleVisibility(event: Event) {

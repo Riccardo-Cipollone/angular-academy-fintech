@@ -1,6 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { map, Observable, shareReplay } from 'rxjs';
+import { AuthService } from 'src/app/api/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +19,7 @@ export class DashboardComponent {
     { name: 'Tasse', icon: 'summarize', link: '/dashboard/taxes' },
   ];
   selectedRoute: MenuRoute | null = null;
+  username: string | null = null;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -25,7 +27,11 @@ export class DashboardComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  constructor(private breakpointObserver: BreakpointObserver, private authService: AuthService) { }
+
+  logout() {
+    this.authService.logout();
+  }
 }
 
 interface MenuRoute {

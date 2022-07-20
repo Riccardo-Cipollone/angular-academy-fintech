@@ -1,7 +1,7 @@
 import { Directive, Input } from "@angular/core";
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 
-export function checkEqualFields(fieldOne: string, fieldTwo: string): ValidatorFn {
+export function equalFieldsValidator(fieldOne: string, fieldTwo: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
         const valueOne: string = control.get(fieldOne)?.value;
         const valueTwo: string = control.get(fieldTwo)?.value;
@@ -22,7 +22,7 @@ export class EqualFieldsValidator implements Validators {
     @Input() equalFields: [string, string] = ['',''];
     
     validate(): ValidationErrors | null {
-        return checkEqualFields(this.equalFields[0], this.equalFields[1]);
+        return equalFieldsValidator(this.equalFields[0], this.equalFields[1]);
     }
 
 }

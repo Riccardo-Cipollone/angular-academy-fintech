@@ -1,18 +1,32 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavigationComponent } from './navigation/navigation.component';
-import { MaterialModule } from '../shared/material/material.module';
-import { RouterModule } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { ApiInterceptor } from './interceptors/api.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
-  declarations: [
-    NavigationComponent
-  ],
+  declarations: [],
   imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule
+    CommonModule
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ]
 })
-export class CoreModule { }
+export class CoreModule {
+  // ! Trick per far si che il CoreModule venga importato SOLO 1 volta.
+  constructor(@Optional() @SkipSelf() core: CoreModule) {
+    if (core) {
+      throw new Error('CoreModule has already been imported.');
+    }
+  }
+}
